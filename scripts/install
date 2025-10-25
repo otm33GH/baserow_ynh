@@ -36,3 +36,46 @@ ynh_psql_db_shell <<< "ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TA
 ynh_script_progression "Setting up source files..."
 
 ynh_setup_source --dest_dir="$install_dir/$app"
+
+#=================================================
+# APP ENV CONFIGURATION
+#=================================================
+ynh_config_add --template=".frontend.env" --destination="$install_dir/$app/.env"
+ynh_config_add --template=".backend.env" --destination="$install_dir/$app/web-frontend.env"
+
+
+#=================================================
+# BUILDING BACKEND
+#=================================================
+ynh_script_progression "Building Backend..."
+
+pushd "$install_dir"
+  python3 -m venv venv
+  source venv/bin/activate
+  pip3 install -e ./baserow/backend
+  pip3 install -e ./baserow/premium/backend
+  pip3 install -e ./baserow/enterprise/backend
+  pip install -r baserow/backend/requirements/base.txt
+  source .env
+  baserow migrate
+  baserow sync_templates
+  deactivate
+popd
+
+#=================================================
+# BUILDING FRONTEND
+#=================================================
+
+pushd "$install_dir/$app/web-frontend"
+  yarn install
+  echo N | ./node_modules/nuxt/bin/nuxt.js build --config-file config/nuxt.config.local.js
+  npm install --legacy-peer-depsnpm 
+  run build
+popd
+
+
+
+
+
+
+
