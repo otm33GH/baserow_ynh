@@ -56,8 +56,11 @@ pushd "$install_dir"
   pip3 install -e ./baserow/premium/backend
   pip3 install -e ./baserow/enterprise/backend
   pip install -r baserow/backend/requirements/base.txt
+  set -a  
   source .env
+  set +a
   export DJANGO_SETTINGS_MODULE='baserow.config.settings.base'
+  export
   baserow migrate
   baserow sync_templates
   deactivate
