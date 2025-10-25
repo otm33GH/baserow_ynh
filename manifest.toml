@@ -75,7 +75,7 @@ multi_instance = false
 
     [resources.data_dir]
 
-        [resources.database]
+    [resources.database]
     type = "postgresql"
 
     [resources.nodejs]
