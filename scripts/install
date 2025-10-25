@@ -1,0 +1,38 @@
+#!/bin/bash
+
+#=================================================
+# GENERIC START
+#=================================================
+# IMPORT GENERIC HELPERS
+#=================================================
+
+# source _common.sh
+source /usr/share/yunohost/helpers
+
+#=================================================
+# INITIALIZE SETTINGS
+#=================================================
+ynh_script_progression "Generating $app's secrets..."
+
+session_secret=$(ynh_string_random --length=24)
+
+
+#=================================================
+# CREATE A PostgreSQL DATABASE
+#=================================================
+ynh_script_progression "Configuring a PostgreSQL database..."
+
+ynh_psql_db_shell <<< "ALTER ROLE baserow SET client_encoding TO 'utf8';"
+ynh_psql_db_shell <<< "ALTER ROLE baserow SET default_transaction_isolation TO 'read committed';"
+ynh_psql_db_shell <<< "ALTER ROLE baserow SET timezone TO 'UTC';"
+ynh_psql_db_shell <<< "GRANT ALL PRIVILEGES ON DATABASE baserow TO baserow;"
+ynh_psql_db_shell <<< "GRANT ALL PRIVILEGES ON SCHEMA public TO baserow;"
+ynh_psql_db_shell <<< "ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO baserow;"
+
+
+#=================================================
+# DOWNLOAD, CHECK AND UNPACK SOURCE
+#=================================================
+ynh_script_progression "Setting up source files..."
+
+ynh_setup_source --dest_dir="$install_dir/$app"
