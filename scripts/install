@@ -40,8 +40,8 @@ ynh_setup_source --dest_dir="$install_dir/$app"
 #=================================================
 # APP ENV CONFIGURATION
 #=================================================
-ynh_config_add --template=".frontend.env" --destination="$install_dir/.env"
-ynh_config_add --template=".backend.env" --destination="$install_dir/$app/web-frontend/.env"
+ynh_config_add --template=".backend.env" --destination="$install_dir/.env"
+ynh_config_add --template=".frontend.env" --destination="$install_dir/$app/web-frontend/.env"
 
 
 #=================================================
