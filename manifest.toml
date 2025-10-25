@@ -8,3 +8,56 @@ description.fr = "Application open source de création d’applications et de ba
 version = "1.3.35~ynh1"
 
 maintainers = ["otm33GH"]
+
+[upstream]
+license = "MIT"
+website = "https://baserow.io/"
+admindoc = "https://baserow.io/docs/index"
+code = "https://github.com/baserow/baserow"
+
+[integration]
+yunohost = ">= 12.1.6"
+architectures = "all"
+helpers_version = "2.1"
+multi_instance = false
+
+[install]
+    [install.domain]
+    type = "domain"
+
+    [install.init_main_permission]
+    type = "group"
+    default = "visitors"
+    
+    [install.admin]
+    type = "user"
+    
+    [install.admin_pw]
+    ask.en = "Please chose a password for the admin user."
+    ask.fr = "Choisissez un mot de passe pour l'administrateur."
+    type = "password"
+
+    [install.registration]
+    ask.en = "Do you want to enable visitor's registration ?"
+    ask.fr = "Voulez-vous autoriser les visiteurs à s'inscrire sur votre application ?"
+    type = "boolean"
+    default = "true"
+    yes = "true"
+    no = "false"
+
+    [install.ldap]
+    ask.en = "Do you want to enable ldap authentication ?"
+    ask.fr = "Voulez-vous autoriser l'authentification LDAP ?"
+    type = "boolean"
+    default = "true"
+    yes = "true"
+    no = "false"
+    
+[resources]    
+    [resources.sources.main]
+    url = "https://github.com/baserow/baserow/archive/refs/heads/master.zip" 
+    sha256 = "edf7fa959adba8024eafe7fdad0e73ca7a238d15c0bdc53ec170abd31a6320c1"
+    autoupdate.strategy = "latest_github_tag"
+    autoupdate.assets = "tar.gz"
+
+https://github.com/baserow/baserow/archive/refs/heads/master.zip
