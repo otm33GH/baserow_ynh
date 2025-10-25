@@ -1,0 +1,39 @@
+#!/bin/bash
+
+#=================================================
+# GENERIC START
+#=================================================
+# IMPORT GENERIC HELPERS
+#=================================================
+
+source _common.sh
+source /usr/share/yunohost/helpers
+
+#=================================================
+# REMOVE SYSTEM CONF
+#=================================================
+ynh_script_progression "Removing system configurations related to $app..."
+
+ynh_config_remove_logrotate
+
+if ynh_hide_warnings yunohost service status "$app" >/dev/null; then
+    yunohost service remove "$app"
+fi
+
+ynh_config_remove_systemd
+
+#=================================================
+# REMOVE NGINX CONFIGURATION
+#=================================================
+ynh_script_progression --message="Removing NGINX web server configuration..." --weight=2
+
+# Remove the dedicated NGINX config
+ynh_config_remove_nginx
+# ynh_secure_remove --file="/etc/nginx/conf.d/$domain.d/$app.d"
+
+
+#=================================================
+# END OF SCRIPT
+#=================================================
+
+ynh_script_progression --message="Removal of $app completed" --last
