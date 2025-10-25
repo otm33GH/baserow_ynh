@@ -1,0 +1,10 @@
+packaging_format = 2
+
+id = "baserow"
+name = "Baserow"
+description.en = "No-code open source database & application builder"
+description.fr = "Application open source de création d’applications et de bases de données sans code"
+
+version = "1.3.35~ynh1"
+
+maintainers = ["otm33GH"]
