@@ -38,6 +38,15 @@ ynh_script_progression "Setting up source files..."
 ynh_setup_source --dest_dir="$install_dir/$app"
 
 #=================================================
+# ADMIN USER CONFIGURATION
+#=================================================
+ynh_script_progression "Adding $app's configuration files..."
+
+admin_mail=$(ynh_user_get_info --username=$admin --key="mail")
+ynh_hide_warnings npm install bcryptjs
+admin_pw_hash=$(node -e "console.log(require('bcryptjs').hashSync('"$admin_pw"', 10));")
+
+#=================================================
 # APP ENV CONFIGURATION
 #=================================================
 ynh_config_add --template=".backend.env" --destination="$install_dir/$app.env"
@@ -47,7 +56,7 @@ ynh_config_add --template=".frontend.env" --destination="$install_dir/$app/web-f
 #=================================================
 # BUILDING BACKEND
 #=================================================
-ynh_script_progression "Building Backend..."
+ynh_script_progression "Building $app's backend..."
 
 pushd "$install_dir"
   python3 -m venv venv
@@ -69,6 +78,7 @@ popd
 #=================================================
 # BUILDING FRONTEND
 #=================================================
+ynh_script_progression "Building $app's frontend..."
 
 pushd "$install_dir/$app/web-frontend"
   yarn install
@@ -78,9 +88,40 @@ pushd "$install_dir/$app/web-frontend"
   npm run build
 popd
 
+#=================================================
+# AUTHENTICATION
+#=================================================
+ynh_script_progression "Configuring $app's authentication
 
+ynh_psql_db_shell  <<< "INSERT INTO public.auth_user (email, password, username) VALUES ('"$admin_mail"', '"$admin_pw_hash"', '"$admin_mail"');"
 
+#=================================================
+# SYSTEM CONFIGURATION
+#=================================================
+ynh_script_progression "Adding system configurations related to $app..."
 
+ynh_config_add_nginx
 
+ynh_app_setting_set --app=$app --key=secret_key --value=$secret_key
 
+ynh_config_add_systemd
+
+ynh_config_add_logrotate
+
+touch /var/log/$app/$app.log
+chown -R $app:www-data /var/log/$app/
+yunohost service add "$app" --description="Saltcorn No-Code Editor" --log="/var/log/$app/$app.log"
+
+#=================================================
+# START SYSTEMD SERVICE
+#=================================================
+ynh_script_progression "Starting $app's systemd service..."
+
+ynh_systemctl --service="$app" --action="start"
+
+#=================================================
+# END OF SCRIPT
+#=================================================
+
+ynh_script_progression "Installation of $app completed"
 
