@@ -10,7 +10,7 @@ Group=__APP__
 WorkingDirectory=__INSTALL_DIR__/__APP__/web-frontend
 EnvironmentFile=__INSTALL_DIR__/__APP__/web-frontend/.env 
 Environment="NODE_ENV=production"
-ExecStart=/bin/bash -c 'npm run start -- --hostname 127.0.0.1 -p __PORT_FRONTEND__'
+ExecStart=/bin/bash -c 'npm run start -- -p __PORT_FRONTEND__'
 Environment="PATH=__PATH_WITH_NODEJS__"
 SyslogIdentifier=__APP__
 Restart=always
