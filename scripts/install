@@ -72,8 +72,8 @@ popd
 
 pushd "$install_dir/$app/web-frontend"
   yarn install
-  CI=true ./node_modules/nuxt/bin/nuxt.js build --config-file config/nuxt.config.local.js --quiet
   npm install --legacy-peer-deps
+  CI=true ./node_modules/nuxt/bin/nuxt.js build --config-file config/nuxt.config.local.js --quiet
   npm run build
 popd
 
