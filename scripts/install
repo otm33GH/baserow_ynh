@@ -58,13 +58,13 @@ ynh_config_add --template=".frontend.env" --destination="$install_dir/$app/web-f
 #=================================================
 ynh_script_progression "Building $app's backend..."
 
-pushd "$install_dir"
+pushd "$install_dir/$app"
   python3 -m venv venv
   source venv/bin/activate
-  pip3 install -e ./baserow/backend
-  pip3 install -e ./baserow/premium/backend
-  pip3 install -e ./baserow/enterprise/backend
-  pip install -r baserow/backend/requirements/base.txt
+  pip3 install -e ./backend
+  pip3 install -e ./premium/backend
+  pip3 install -e ./enterprise/backend
+  pip install -r backend/requirements/base.txt
   set -a  
   source .env
   set +a
