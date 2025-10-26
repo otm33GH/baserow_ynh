@@ -40,7 +40,7 @@ ynh_setup_source --dest_dir="$install_dir/$app"
 #=================================================
 # APP ENV CONFIGURATION
 #=================================================
-ynh_config_add --template=".backend.env" --destination="$install_dir/.env"
+ynh_config_add --template=".backend.env" --destination="$install_dir/$app.env"
 ynh_config_add --template=".frontend.env" --destination="$install_dir/$app/web-frontend/.env"
 
 
@@ -72,8 +72,9 @@ popd
 
 pushd "$install_dir/$app/web-frontend"
   yarn install
-  npm install --legacy-peer-deps
+
   CI=true ./node_modules/nuxt/bin/nuxt.js build --config-file config/nuxt.config.local.js --quiet
+  npm install --legacy-peer-deps
   npm run build
 popd
 
