@@ -9,7 +9,7 @@ User=__APP__
 Group=__APP__
 WorkingDirectory=__INSTALL_DIR__/__APP__
 EnvironmentFile=__INSTALL_DIR__/.env 
-ExecStart=/bin/bash -c 'source __INSTALL_DIR__/venv/bin/activate && baserow runserver 0.0.0.0:__PORT__'
+ExecStart=/bin/bash -c 'source __INSTALL_DIR__/venv/bin/activate && baserow runserver 0.0.0.0:__PORT_BACKEND__'
 
 
 SyslogIdentifier=__APP__
