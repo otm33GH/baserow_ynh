@@ -49,7 +49,7 @@ admin_pw_hash=$(node -e "console.log(require('bcryptjs').hashSync('"$admin_pw"',
 #=================================================
 # APP ENV CONFIGURATION
 #=================================================
-ynh_config_add --template=".backend.env" --destination="$install_dir/$app.env"
+ynh_config_add --template=".backend.env" --destination="$install_dir/$app/.env"
 ynh_config_add --template=".frontend.env" --destination="$install_dir/$app/web-frontend/.env"
 
 
