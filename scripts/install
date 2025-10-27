@@ -114,7 +114,7 @@ ynh_config_add_logrotate
 
 touch /var/log/$app/$app.log
 chown -R $app:www-data /var/log/$app/
-yunohost service add "$app" --description="Saltcorn No-Code Editor" --log="/var/log/$app/$app.log"
+yunohost service add "$app" --description="Baserow No-Code Editor" --log="/var/log/$app/$app.log"
 
 #=================================================
 # START SYSTEMD SERVICE
