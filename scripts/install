@@ -94,7 +94,7 @@ popd
 #=================================================
 # AUTHENTICATION
 #=================================================
-ynh_script_progression "Configuring $app's authentication
+ynh_script_progression "Configuring $app's authentication"
 
 ynh_psql_db_shell  <<< "INSERT INTO public.auth_user (email, password, username) VALUES ('"$admin_mail"', '"$admin_pw_hash"', '"$admin_mail"');"
 
