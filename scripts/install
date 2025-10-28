@@ -97,7 +97,7 @@ popd
 #=================================================
 ynh_script_progression "Configuring $app's authentication"
 
-ynh_psql_db_shell  <<< "INSERT INTO public.auth_user (email, password, is_superuser, is_staff, is_active, first_name, username, date_joined) VALUES ('"$admin_mail"', '"$admin_pw_hash"', 'true', 'true', 'true', '"$admin"', '"$admin_mail"', '"$date_joined"');"
+ynh_psql_db_shell  <<< "INSERT INTO public.auth_user (email, password, is_superuser, is_staff, is_active, first_name, last_name, username, date_joined) VALUES ('"$admin_mail"', '"$admin_pw_hash"', 'true', 'true', 'true', '"$admin"', '"$admin"', '"$admin_mail"', '"$date_joined"');"
 
 #=================================================
 # SYSTEM CONFIGURATION
