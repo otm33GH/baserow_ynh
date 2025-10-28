@@ -11,10 +11,13 @@ WorkingDirectory=__INSTALL_DIR__/__APP__/web-frontend
 EnvironmentFile=__INSTALL_DIR__/__APP__/web-frontend/.env 
 Environment="NODE_ENV=production"
 Environment="PATH=__PATH_WITH_NODEJS__"
-ExecStart=/bin/bash -c 'npm run start -- -p __PORT_FRONTEND__'
+ExecStart=/opt/node_n/n/versions/node/24.10.0/bin/npm run start -- -p __PORT_FRONTEND__'
 
+StandardOutput=append:/var/log/__APP__/__APP__-frontend.log
+StandardError=inherit
 SyslogIdentifier=__APP__
-Restart=always
+Restart=on-failure
+RestartSec=5
 
 # Sandboxing options to harden security
 # Depending on specificities of your service/app, you may need to tweak these
