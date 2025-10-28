@@ -1,2 +1,2 @@
-Installation was successful.
-⚠️ Some features are only available in paid plans.
+Installation was successful.  
+⚠️ Some features are only available with paid plans.
