@@ -117,8 +117,8 @@ touch /var/log/$app/$app-frontend.log
 
 chown -R $app:www-data /var/log/$app/
 
-yunohost service add "$app-backend" --description="Baserow No-Code Editor - backend" --log="/var/log/$app-backend/$app-backend.log"
-yunohost service add "$app-frontend" --description="Baserow No-Code Editor - frontend" --log="/var/log/$app-frontend/$app-frontend.log"
+yunohost service add "$app-backend" --description="Baserow No-Code Editor - backend" --log="/var/log/$app/$app-backend.log"
+yunohost service add "$app-frontend" --description="Baserow No-Code Editor - frontend" --log="/var/log/$app/$app-frontend.log"
 
 #=================================================
 # START SYSTEMD SERVICE
