@@ -16,6 +16,7 @@ ynh_script_progression "Generating $app's secrets..."
 
 secret_key=$(ynh_string_random --length=24)
 jwt_secret=$(ynh_string_random --length=24)
+date_joined=$(date +"%Y-%m-%d %H:%M:%S.%6N%:z")
 
 #=================================================
 # CREATE A PostgreSQL DATABASE
@@ -94,7 +95,7 @@ popd
 #=================================================
 ynh_script_progression "Configuring $app's authentication"
 
-ynh_psql_db_shell  <<< "INSERT INTO public.auth_user (email, password, username) VALUES ('"$admin_mail"', '"$admin_pw_hash"', '"$admin_mail"');"
+ynh_psql_db_shell  <<< "INSERT INTO public.auth_user (email, password, is_superuser, is_staff, is_active, first_name, username, date_joined) VALUES ('"$admin_mail"', '"$admin_pw_hash"', 'true', 'true', 'true', "'$admin'", '"$admin_mail"', '"$date_joined'");"
 
 #=================================================
 # SYSTEM CONFIGURATION
