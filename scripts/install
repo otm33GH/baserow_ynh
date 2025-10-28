@@ -112,7 +112,9 @@ ynh_config_add_systemd --service="$app-frontend" --template="baserow-frontend.se
 
 ynh_config_add_logrotate
 
-touch /var/log/$app/$app.log
+touch /var/log/$app/$app-backend.log
+touch /var/log/$app/$app-frontend.log
+
 chown -R $app:www-data /var/log/$app/
 
 yunohost service add "$app-backend" --description="Baserow No-Code Editor - backend" --log="/var/log/$app-backend/$app-backend.log"
