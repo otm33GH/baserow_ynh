@@ -11,7 +11,7 @@ WorkingDirectory=__INSTALL_DIR__/__APP__/web-frontend
 EnvironmentFile=__INSTALL_DIR__/__APP__/web-frontend/.env 
 Environment="NODE_ENV=production"
 Environment="PATH=__PATH_WITH_NODEJS__"
-ExecStart=/opt/node_n/n/versions/node/24.10.0/bin/npm run start -- -p __PORT_FRONTEND__'
+ExecStart=/opt/node_n/n/versions/node/24.10.0/bin/npm run start -- -p __PORT_FRONTEND__
 
 StandardOutput=append:/var/log/__APP__/__APP__-frontend.log
 StandardError=inherit
