@@ -58,7 +58,6 @@ ynh_config_add --template=".frontend.env" --destination="$install_dir/$app/web-f
 #=================================================
 ynh_script_progression "Building $app's backend..."
 pushd "$install_dir"
-  mkdir media
   chmod 0755 media
 popd
 pushd "$install_dir/$app"
