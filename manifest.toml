@@ -79,7 +79,7 @@ ram.runtime = "1500M"
 
     [resources.ports.frontend]
     [resources.apt]
-    packages = "postgresql redis-server git curl python3 python3-venv python3-pip libpq-dev"
+    packages = "postgresql redis-server git curl python3 python3-venv python3-pip libpq-dev yarn"
 
     [resources.data_dir]
 
