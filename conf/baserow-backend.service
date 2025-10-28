@@ -9,11 +9,15 @@ User=__APP__
 Group=__APP__
 WorkingDirectory=__INSTALL_DIR__/__APP__
 EnvironmentFile=__INSTALL_DIR__/__APP__/.env 
-ExecStart=/bin/bash -c 'source __INSTALL_DIR__/__APP__/venv/bin/activate && uvicorn baserow.config.asgi:application --host 127.0.0.1 --port __PORT_BACKEND__'
+#ExecStart=/bin/bash -c 'source __INSTALL_DIR__/__APP__/venv/bin/activate && uvicorn baserow.config.asgi:application --host 127.0.0.1 --port __PORT_BACKEND__'
+ExecStart=__INSTALL_DIR/__APP__/venv/bin/python -m uvicorn baserow.config.asgi:application --host 127.0.0.1 --port __PORT_BACKEND__
 
-
+StandardOutput=append:/var/log/__APP__/__APP__.log
+StandardError=inherit
 SyslogIdentifier=__APP__
+
 Restart=always
+RestartSec=5
 
 # Sandboxing options to harden security
 # Depending on specificities of your service/app, you may need to tweak these
