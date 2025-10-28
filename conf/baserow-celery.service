@@ -1,0 +1,15 @@
+[Unit]
+Description=Baserow Celery Worker
+After=network.target redis.service
+Requires=redis.service
+
+[Service]
+User=__APP__
+Group=__APP__
+WorkingDirectory=__INSTALL_DIR__/__APP__
+EnvironmentFile=__INSTALL_DIR__/__APP__/.env
+ExecStart=__INSTALL_DIR__/__APP__/venv/bin/celery -A baserow worker -l info
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
