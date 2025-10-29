@@ -79,7 +79,8 @@ import os
 from django.contrib.auth.hashers import make_password
 pw = os.getenv("PW")
 print(make_password(pw))
-PY)
+PY
+)
   deactivate
 popd
 
