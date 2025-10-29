@@ -73,8 +73,7 @@ ynh_script_progression "Migrating $app's database... Have a break of 30 minutes 
 ynh_script_progression "Adding $app's admin..."
 
 admin_mail=$(ynh_user_get_info --username=$admin --key="mail")
-ynh_hide_warnings npm install bcryptjs
-admin_pw_hash=$(PW="$admin_pwd" /var/www/baserow/baserow/venv/bin/python3 - <<'PY'
+admin_pw_hash=$(PW="$admin_pw" /var/www/baserow/baserow/venv/bin/python3 - <<'PY'
 import os
 from django.contrib.auth.hashers import make_password
 pw = os.getenv("PW")
