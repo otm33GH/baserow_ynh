@@ -16,11 +16,25 @@ ynh_script_progression "Removing system configurations related to $app..."
 
 ynh_config_remove_logrotate
 
-if ynh_hide_warnings yunohost service status "$app" >/dev/null; then
-    yunohost service remove "$app"
+if ynh_hide_warnings yunohost service status "$app-backend" >/dev/null; then
+    yunohost service remove "$app-backend"
 fi
+ynh_config_remove_systemd "$app"
 
-ynh_config_remove_systemd
+if ynh_hide_warnings yunohost service status "$app-frontend" >/dev/null; then
+    yunohost service remove "$app-frontend"
+fi
+ynh_config_remove_systemd "$app-frontend"
+
+if ynh_hide_warnings yunohost service status "$app-celery" >/dev/null; then
+    yunohost service remove "$app-celery"
+fi
+ynh_config_remove_systemd "$app-celery"
+
+if ynh_hide_warnings yunohost service status "$app-celery-export" >/dev/null; then
+    yunohost service remove "$app-celery-export"
+fi
+ynh_config_remove_systemd "$app-celery-export"
 
 #=================================================
 # REMOVE NGINX CONFIGURATION
