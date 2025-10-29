@@ -12,5 +12,9 @@ ExecStart=__INSTALL_DIR__/__APP__/venv/bin/celery -A baserow worker --loglevel=I
 Restart=always
 RestartSec=5
 
+StandardOutput=append:/var/log/__APP__/__APP__-celery-export.log
+StandardError=inherit
+SyslogIdentifier=__APP__
+
 [Install]
 WantedBy=multi-user.target
