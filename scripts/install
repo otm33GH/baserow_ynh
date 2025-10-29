@@ -83,7 +83,7 @@ popd
 ynh_script_progression "Building $app's frontend..."
 
 pushd "$install_dir/$app/web-frontend"
-  yarn install
+  ynh_hide_warnings yarn install
 
   CI=true ./node_modules/nuxt/bin/nuxt.js build --config-file config/nuxt.config.local.js --quiet
   ynh_hide_warnings npm install --legacy-peer-deps
