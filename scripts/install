@@ -45,7 +45,7 @@ ynh_script_progression "Adding $app's configuration files..."
 
 admin_mail=$(ynh_user_get_info --username=$admin --key="mail")
 ynh_hide_warnings npm install bcryptjs
-admin_pw_hash=$(node -e "console.log(require('bcryptjs').hashSync('"$admin_pw"', 10));")
+admin_pw_hash=$(node -e "console.log(require('bcryptjs').hashSync('"$admin_pw"', 24));")
 
 #=================================================
 # APP ENV CONFIGURATION
@@ -95,7 +95,9 @@ popd
 #=================================================
 ynh_script_progression "Configuring $app's authentication"
 
-ynh_psql_db_shell  <<< "INSERT INTO public.auth_user (email, password, is_superuser, is_staff, is_active, first_name, last_name, username, date_joined) VALUES ('"$admin_mail"', '"$admin_pw_hash"', 'true', 'true', 'true', '"$admin"', '"$admin"', '"$admin_mail"', '"$date_joined"');"
+ynh_psql_db_shell  <<< "INSERT INTO public.auth_user (id, email, password, is_superuser, is_staff, is_active, first_name, last_name, username, date_joined) VALUES ('1', '"$admin_mail"', '"$admin_pw_hash"', 'true', 'true', 'true', '"$admin"', '"$admin"', '"$admin_mail"', '"$date_joined"');"
+ynh_psql_db_shell  <<< "INSERT INTO public.core_userprofile (user_id, to_be_deleted, email_notification_frequency, email_verified, completed_onboarding) VALUES ('1', 'false', '"instant"', 'true', 'true', 'true');"
+
 
 #=================================================
 # SYSTEM CONFIGURATION
