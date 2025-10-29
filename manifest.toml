@@ -43,13 +43,11 @@ ram.runtime = "1500M"
     ask.fr = "Choisissez un mot de passe pour l'administrateur."
     type = "password"
 
-    [install.registration]
-    ask.en = "Do you want to enable visitor's registration ?"
-    ask.fr = "Voulez-vous autoriser les visiteurs à s'inscrire sur votre application ?"
-    type = "boolean"
-    default = "true"
-    yes = "true"
-    no = "false"
+    [install.lang]
+    ask.en = "Language for baserow app ?"
+    ask.fr = "Langue de l'application ?"
+    type = "select"
+    choices = ["de", "en", "es", "fr", "it"]
 
     [install.ldap]
     ask.en = "Do you want to enable ldap authentication ?"
