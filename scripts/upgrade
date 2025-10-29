@@ -1,1 +1,121 @@
+#!/bin/bash
+
+#=================================================
+# GENERIC START
+#=================================================
+# IMPORT GENERIC HELPERS
+#=================================================
+
+source _common.sh
+source /usr/share/yunohost/helpers
+
+version=$(ynh_app_upstream_version)
+
+#=================================================
+# STOP SYSTEMD SERVICE
+#=================================================
+ynh_script_progression "Stopping $app's systemd service..."
+
+ynh_systemctl --service="$app-backend" --action="stop" --log_path="systemd"
+ynh_systemctl --service="$app-frontend" --action="stop" --log_path="systemd"
+ynh_systemctl --service="$app-celey" --action="stop" --log_path="systemd"
+ynh_systemctl --service="$app-celery-export" --action="stop" --log_path="systemd"
+
+
+
+#=================================================
+# DOWNLOAD, CHECK AND UNPACK SOURCE
+#=================================================
+ynh_script_progression "Upgrading source files..."
+
+# Download, check integrity, uncompress and patch the source from manifest.toml
+
+ynh_setup_source --dest_dir="$install_dir" --full_replace=1
+
+#=================================================
+# BUILDING BACKEND
+#=================================================
+ynh_script_progression "Building $app's backend..."
+
+pushd "$install_dir/$app"
+  python3 -m venv venv
+  source venv/bin/activate
+  ynh_hide_warnings pip3 install -e ./backend
+  ynh_hide_warnings pip3 install -e ./premium/backend
+  ynh_hide_warnings pip3 install -e ./enterprise/backend
+  ynh_hide_warnings pip install -r backend/requirements/base.txt
+  set -a  
+  source .env
+  set +a
+  export DJANGO_SETTINGS_MODULE=baserow.config.settings.base
+  export
+ynh_script_progression "Migrating $app's database... Have a break of 30 minutes !"
+  #ynh_hide_warnings baserow migrate
+  #ynh_hide_warnings baserow sync_templates
+  deactivate
+popd
+
+#=================================================
+# BUILDING FRONTEND
+#=================================================
+ynh_script_progression "Building $app's frontend..."
+
+pushd "$install_dir/$app/web-frontend"
+  yarn install
+  CI=true ./node_modules/nuxt/bin/nuxt.js build --config-file config/nuxt.config.local.js --quiet
+  ynh_hide_warnings npm install --legacy-peer-deps
+  ynh_hide_warnings npm run build
+popd
+
+
+
+#=================================================
+# UPDATE CONFIG FILES
+#=================================================
+ynh_script_progression "Updating $app's configuration files..."
+
+jwt_secret=$(ynh_app_setting_get --app=$app --key=jwt_secret)
+secret_key=$(ynh_app_setting_get --app=$app --key=secret_key)
+
+ynh_config_add --template=".backend.env" --destination="$install_dir/$app/.env"
+ynh_config_add --template=".frontend.env" --destination="$install_dir/$app/web-frontend/.env"
+
+#=================================================
+# REAPPLY SYSTEM CONFIGURATIONS
+#=================================================
+ynh_script_progression "Upgrading system configurations related to $app..."
+
+ynh_config_add_nginx
+
+ynh_app_setting_set --app=$app --key=secret_key --value=$secret_key
+
+ynh_config_add_systemd --service="$app-backend" --template="baserow-backend.service"
+ynh_config_add_systemd --service="$app-frontend" --template="baserow-frontend.service"
+ynh_config_add_systemd --service="$app-celery" --template="baserow-celery.service"
+ynh_config_add_systemd --service="$app-celery-export" --template="baserow-celery-export.service"
+
+ynh_config_add_logrotate
+
+touch /var/log/$app/$app-backend.log
+touch /var/log/$app/$app-frontend.log
+
+chown -R $app:www-data /var/log/$app/
+
+#=================================================
+# START SYSTEMD SERVICE
+#=================================================
+ynh_script_progression "Starting $app's systemd service..."
+
+ynh_systemctl --service="$app-backend" --action="start"
+ynh_systemctl --service="$app-frontend" --action="start"
+ynh_systemctl --service="$app-celery" --action="start"
+ynh_systemctl --service="$app-celery-export" --action="start"
+
+#=================================================
+# END OF SCRIPT
+#=================================================
+
+ynh_script_progression "Upgrade of $app completed"
+
+
 
