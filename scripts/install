@@ -58,9 +58,7 @@ ynh_config_add --template=".frontend.env" --destination="$install_dir/$app/web-f
 # BUILDING BACKEND
 #=================================================
 ynh_script_progression "Building $app's backend..."
-pushd "$install_dir"
- # chmod 0755 media
-popd
+
 pushd "$install_dir/$app"
   python3 -m venv venv
   source venv/bin/activate
