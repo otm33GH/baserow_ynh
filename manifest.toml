@@ -34,21 +34,7 @@ ram.runtime = "1500M"
     [install.init_main_permission]
     type = "group"
     default = "visitors"
-    
-    [install.admin]
-    type = "user"
-    
-    [install.admin_pw]
-    ask.en = "Please chose a password for the admin user"
-    ask.fr = "Choisissez un mot de passe pour l'administrateur"
-    type = "password"
-
-    [install.lang]
-    ask.en = "Language for baserow app ?"
-    ask.fr = "Langue de l'application ?"
-    type = "select"
-    choices = ["de", "en", "es", "fr", "it"]
-  
+     
 [resources]    
     [resources.sources.main]
     url = "https://github.com/baserow/baserow/archive/refs/tags/1.34.0.tar.gz" 
