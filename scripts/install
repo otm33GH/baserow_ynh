@@ -16,7 +16,6 @@ ynh_script_progression "Generating $app's secrets..."
 
 secret_key=$(ynh_string_random --length=24)
 jwt_secret=$(ynh_string_random --length=24)
-date_joined=$(date +"%Y-%m-%d %H:%M:%S.%6N%:z")
 
 #=================================================
 # CREATE A PostgreSQL DATABASE
@@ -89,6 +88,7 @@ ynh_script_progression "Adding system configurations related to $app..."
 ynh_config_add_nginx
 
 ynh_app_setting_set --app=$app --key=secret_key --value=$secret_key
+ynh_app_setting_set --app=$app --key=jwt_secret --value=$jwt_secret
 
 ynh_config_add_systemd --service="$app-backend" --template="baserow-backend.service"
 ynh_config_add_systemd --service="$app-frontend" --template="baserow-frontend.service"
