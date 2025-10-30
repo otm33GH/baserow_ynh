@@ -66,20 +66,6 @@ pushd "$install_dir/$app"
 ynh_script_progression "Migrating $app's database... Have a break of 30 minutes !"
   ynh_hide_warnings baserow migrate
   ynh_hide_warnings baserow sync_templates
-
-#=================================================
-###  ADMIN USER CONFIGURATION
-#=================================================
-ynh_script_progression "Adding $app's admin..."
-
-admin_mail=$(ynh_user_get_info --username=$admin --key="mail")
-admin_pw_hash=$(PW="$admin_pw" /var/www/baserow/baserow/venv/bin/python3 - <<'PY'
-import os
-from django.contrib.auth.hashers import make_password
-pw = os.getenv("PW")
-print(make_password(pw))
-PY
-)
   deactivate
 popd
 
@@ -94,15 +80,6 @@ pushd "$install_dir/$app/web-frontend"
   ynh_hide_warnings npm install --legacy-peer-deps
   ynh_hide_warnings npm run build
 popd
-
-#=================================================
-# AUTHENTICATION
-#=================================================
-ynh_script_progression "Configuring $app's authentication"
-
-ynh_psql_db_shell  <<< "INSERT INTO public.auth_user (id, email, password, is_superuser, is_staff, is_active, first_name, last_name, username, date_joined) VALUES ('2', '"$admin_mail"', '"$admin_pw_hash"', 'true', 'true', 'true', '"$admin"', '"$admin"', '"$admin_mail"', '"$date_joined"');"
-ynh_psql_db_shell  <<< "INSERT INTO public.core_userprofile (language, user_id, to_be_deleted, email_notification_frequency, email_verified, completed_onboarding) VALUES ('"$lang"', '2', 'false', '"instant"', 'true', 'true');"
-
 
 #=================================================
 # SYSTEM CONFIGURATION
