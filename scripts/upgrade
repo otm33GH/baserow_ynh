@@ -18,7 +18,7 @@ ynh_script_progression "Stopping $app's systemd service..."
 
 ynh_systemctl --service="$app-backend" --action="stop" --log_path="systemd"
 ynh_systemctl --service="$app-frontend" --action="stop" --log_path="systemd"
-ynh_systemctl --service="$app-celey" --action="stop" --log_path="systemd"
+ynh_systemctl --service="$app-celery" --action="stop" --log_path="systemd"
 ynh_systemctl --service="$app-celery-export" --action="stop" --log_path="systemd"
 
 
