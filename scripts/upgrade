@@ -32,6 +32,16 @@ ynh_script_progression "Upgrading source files..."
 
 ynh_setup_source --dest_dir="$install_dir/$app" --full_replace=1
 
+#=================================================
+# UPDATE CONFIG FILES
+#=================================================
+ynh_script_progression "Updating $app's configuration files..."
+
+jwt_secret=$(ynh_app_setting_get --app=$app --key=jwt_secret)
+secret_key=$(ynh_app_setting_get --app=$app --key=secret_key)
+
+ynh_config_add --template=".backend.env" --destination="$install_dir/$app/.env"
+ynh_config_add --template=".frontend.env" --destination="$install_dir/$app/web-frontend/.env"
 
 #=================================================
 # BUILDING BACKEND
@@ -45,14 +55,10 @@ pushd "$install_dir/$app"
   ynh_hide_warnings pip3 install -e ./premium/backend
   ynh_hide_warnings pip3 install -e ./enterprise/backend
   ynh_hide_warnings pip install -r backend/requirements/base.txt
-  set -a  
-  source .env
-  set +a
   export DJANGO_SETTINGS_MODULE=baserow.config.settings.base
-  export
 ynh_script_progression "Migrating $app's database... Have a break of 30 minutes !"
-  #ynh_hide_warnings baserow migrate
-  #ynh_hide_warnings baserow sync_templates
+  ynh_hide_warnings baserow migrate
+  ynh_hide_warnings baserow sync_templates
   deactivate
 popd
 
@@ -67,19 +73,6 @@ pushd "$install_dir/$app/web-frontend"
   ynh_hide_warnings npm install --legacy-peer-deps
   ynh_hide_warnings npm run build
 popd
-
-
-
-#=================================================
-# UPDATE CONFIG FILES
-#=================================================
-ynh_script_progression "Updating $app's configuration files..."
-
-jwt_secret=$(ynh_app_setting_get --app=$app --key=jwt_secret)
-secret_key=$(ynh_app_setting_get --app=$app --key=secret_key)
-
-ynh_config_add --template=".backend.env" --destination="$install_dir/$app/.env"
-ynh_config_add --template=".frontend.env" --destination="$install_dir/$app/web-frontend/.env"
 
 #=================================================
 # REAPPLY SYSTEM CONFIGURATIONS
