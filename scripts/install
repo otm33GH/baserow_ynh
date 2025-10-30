@@ -61,7 +61,6 @@ pushd "$install_dir/$app"
   source .env
   set +a
   export DJANGO_SETTINGS_MODULE=baserow.config.settings.base
-  export
 ynh_script_progression "Migrating $app's database... Have a break of 30 minutes !"
   ynh_hide_warnings baserow migrate
   ynh_hide_warnings baserow sync_templates
