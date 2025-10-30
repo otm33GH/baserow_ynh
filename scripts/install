@@ -37,14 +37,6 @@ ynh_script_progression "Setting up source files..."
 
 ynh_setup_source --dest_dir="$install_dir/$app"
 
-#=================================================
-# ADMIN USER CONFIGURATION
-#=================================================
-ynh_script_progression "Adding $app's configuration files..."
-
-admin_mail=$(ynh_user_get_info --username=$admin --key="mail")
-ynh_hide_warnings npm install bcryptjs
-admin_pw_hash=$(node -e "console.log(require('bcryptjs').hashSync('"$admin_pw"', 24));")
 
 #=================================================
 # APP ENV CONFIGURATION
@@ -68,8 +60,6 @@ pushd "$install_dir/$app"
   set -a  
   source .env
   set +a
-  export DJANGO_SETTINGS_MODULE=baserow.config.settings.base
-  export
 ynh_script_progression "Migrating $app's database... Have a break of 30 minutes !"
   ynh_hide_warnings baserow migrate
   ynh_hide_warnings baserow sync_templates
