@@ -79,31 +79,6 @@ pushd "$install_dir/$app/web-frontend"
 popd
 
 #=================================================
-###  ADMIN USER CONFIGURATION
-#=================================================
-ynh_script_progression "Adding $app's admin..."
-
-admin_mail=$(ynh_user_get_info --username=$admin --key="mail")
-export PW="$admin_pw"
-admin_pw_hash=$(/var/www/baserow/baserow/venv/bin/python3 -c 'import os,sys; from django.contrib.auth.hashers import make_password; pw=os.environ.get("PW"); 
-if not pw: sys.exit(2)
-print(make_password(pw))')
-unset PW
-
-# enlever saut de ligne éventuel
-admin_pw_hash=$(echo -n "$admin_pw_hash")
-
-
-
-#=================================================
-# AUTHENTICATION
-#=================================================
-
-ynh_script_progression "Configuring $app's authentication"
-ynh_psql_db_shell  <<< "INSERT INTO public.auth_user (id, email, password, is_superuser, is_staff, is_active, first_name, last_name, username, date_joined) VALUES ('2', '"$admin_mail"', '"$admin_pw_hash"', 'true', 'true', 'true', '"$admin"', '"$admin"', '"$admin_mail"', '"$date_joined"');"
-ynh_psql_db_shell  <<< "INSERT INTO public.core_userprofile (language, user_id, to_be_deleted, email_notification_frequency, email_verified, completed_onboarding) VALUES ('"$lang"', '2', 'false', '"instant"', 'true', 'true');"
-
-#=================================================
 # SYSTEM CONFIGURATION
 #=================================================
 ynh_script_progression "Adding system configurations related to $app..."
