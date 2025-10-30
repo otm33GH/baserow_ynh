@@ -82,6 +82,21 @@ pushd "$install_dir/$app/web-frontend"
 popd
 
 #=================================================
+###  ADMIN USER CONFIGURATION
+#=================================================
+ynh_script_progression "Adding $app's admin..."
+
+admin_mail=$(ynh_user_get_info --username=$admin --key="mail")
+admin_pw_hash=$(PW="$admin_pw" /var/www/baserow/baserow/venv/bin/python3 - <<'PY'
+import os
+from django.contrib.auth.hashers import make_password
+pw = os.getenv("PW")
+print(make_password(pw))
+PY
+)
+
+
+#=================================================
 # SYSTEM CONFIGURATION
 #=================================================
 ynh_script_progression "Adding system configurations related to $app..."
