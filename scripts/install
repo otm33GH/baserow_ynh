@@ -66,6 +66,7 @@ pushd "$install_dir/$app"
 ynh_script_progression "Migrating $app's database... Have a break of 30 minutes !"
   ynh_hide_warnings baserow migrate
   ynh_hide_warnings baserow sync_templates
+  deactivate
 popd
 
 #=================================================
