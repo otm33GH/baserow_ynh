@@ -16,7 +16,6 @@ ynh_script_progression "Generating $app's secrets..."
 
 secret_key=$(ynh_string_random --length=24)
 jwt_secret=$(ynh_string_random --length=24)
-date_joined=$(date +"%Y-%m-%d %H:%M:%S.%6N%:z")
 
 #=================================================
 # CREATE A PostgreSQL DATABASE
@@ -90,15 +89,6 @@ pushd "$install_dir/$app/web-frontend"
 popd
 
 #=================================================
-# AUTHENTICATION
-#=================================================
-ynh_script_progression "Configuring $app's authentication"
-
-ynh_psql_db_shell  <<< "INSERT INTO public.auth_user (id, email, password, is_superuser, is_staff, is_active, first_name, last_name, username, date_joined) VALUES ('2', '"$admin_mail"', '"$admin_pw_hash"', 'true', 'true', 'true', '"$admin"', '"$admin"', '"$admin_mail"', '"$date_joined"');"
-ynh_psql_db_shell  <<< "INSERT INTO public.core_userprofile (language_text, user_id, to_be_deleted, email_notification_frequency, email_verified, completed_onboarding) VALUES ('"$lang"', '2', 'false', '"instant"', 'true', 'true');"
-
-
-#=================================================
 # SYSTEM CONFIGURATION
 #=================================================
 ynh_script_progression "Adding system configurations related to $app..."
@@ -106,6 +96,8 @@ ynh_script_progression "Adding system configurations related to $app..."
 ynh_config_add_nginx
 
 ynh_app_setting_set --app=$app --key=secret_key --value=$secret_key
+ynh_app_setting_set --app=$app --key=jwt_secret --value=$jwt_secret
+
 
 ynh_config_add_systemd --service="$app-backend" --template="baserow-backend.service"
 ynh_config_add_systemd --service="$app-frontend" --template="baserow-frontend.service"
