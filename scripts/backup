@@ -25,7 +25,7 @@ ynh_backup "/etc/nginx/conf.d/$domain.d/$app.conf"
 
 ynh_backup "/etc/systemd/system/$app-frontend.service"
 ynh_backup "/etc/systemd/system/$app-backend.service"
-ynh_backup "/etc/systemd/system/$app-celery-service"
+ynh_backup "/etc/systemd/system/$app-celery.service"
 ynh_backup "/etc/systemd/system/$app-celery-export.service"
 
 ynh_backup "/etc/logrotate.d/$app"
