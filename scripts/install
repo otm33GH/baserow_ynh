@@ -87,13 +87,15 @@ popd
 ynh_script_progression "Adding $app's admin..."
 
 admin_mail=$(ynh_user_get_info --username=$admin --key="mail")
-admin_pw_hash=$(PW="$admin_pw" /var/www/baserow/baserow/venv/bin/python3 - <<'PY'
-import os
-from django.contrib.auth.hashers import make_password
-pw = os.getenv("PW")
-print(make_password(pw))
-PY
-)
+export PW="$admin_pw"
+admin_pw_hash=$(/var/www/baserow/baserow/venv/bin/python3 -c 'import os,sys; from django.contrib.auth.hashers import make_password; pw=os.environ.get("PW"); 
+if not pw: sys.exit(2)
+print(make_password(pw))')
+unset PW
+
+# enlever saut de ligne éventuel
+admin_pw_hash=$(echo -n "$admin_pw_hash")
+
 
 
 #=================================================
