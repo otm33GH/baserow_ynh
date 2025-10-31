@@ -40,7 +40,9 @@ services = ["__APP__-backend", "__APP__-celery", "__APP__-celery-export"]
                 ask.en = "SMTP host"
                 ask.fr = "Nom d’hôte du serveur SMTP"
                 type = "string"
-                bind = "EMAIL_SMTP_HOST:__INSTALL_DIR__/__APP__/.env"                [main.smtp.email_smtp_port]
+                bind = "EMAIL_SMTP_HOST:__INSTALL_DIR__/__APP__/.env"               
+                
+                [main.smtp.email_smtp_port]
                 ask.en = "SMTP port"
                 ask.fr = "Port du serveur SMTP"
                 type = "number"
@@ -68,4 +70,17 @@ services = ["__APP__-backend", "__APP__-celery", "__APP__-celery-export"]
                 default = 0
                 bind = "EMAIL_SMTP_USE_TLS:__INSTALL_DIR__/__APP__/.env"
 
-                
+    [main.ai]
+    name = "modèles AI"
+
+                [main.AI.baserow_ollama_host]
+                ask.fr = "Adresse du serveur"
+                type = "url"
+                bind = "BASEROW_OLLAMA_HOST:/var/www/baserow/baserow/.env"
+
+                [main.ai.baserow_ollama_models]
+                ask.fr = "liste des modèles"
+                help.fr = "liste des modèles disponibles, séparés par des virgules"
+                type = "string"
+                bind = "BASEROW_OLLAMA_MODELS:/var/www/baserow/baserow/.env"
+
