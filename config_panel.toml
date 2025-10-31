@@ -40,4 +40,32 @@ services = ["__APP__-backend", "__APP__-celery", "__APP__-celery-export"]
                 ask.en = "SMTP host"
                 ask.fr = "Nom d’hôte du serveur SMTP"
                 type = "string"
-                bind = "EMAIL_SMTP_HOST:__INSTALL_DIR__/__APP__/.env"
+                bind = "EMAIL_SMTP_HOST:__INSTALL_DIR__/__APP__/.env"                [main.smtp.email_smtp_port]
+                ask.en = "SMTP port"
+                ask.fr = "Port du serveur SMTP"
+                type = "number"
+                bind = "EMAIL_SMTP_PORT:__INSTALL_DIR__/__APP__/.env"
+
+                [main.smtp.email_smtp_use_ssl]
+                ask.en = "Use SSL"
+                ask.fr = "Activer la connexion SSL."
+                help.fr = "Ne pas utiliser en même temps que TLS"
+                help.en = "Do not use with TLS"
+                type = "boolean"
+                yes = "true"
+                no = "false"
+                default = 0
+                bind = "EMAIL_SMTP_USE_SSL:__INSTALL_DIR__/__APP__/.env"
+
+                [main.smtp.email_smtp_use_tls]
+                ask.en = "Use TLS"
+                ask.fr = "Activer la connexion TLS"
+                help.fr = "Ne pas utiliser en même temps que SSL"
+                help.en = "Do not use with TLS"
+                type = "boolean"
+                yes = "true"
+                no = "false"
+                default = 0
+                bind = "EMAIL_SMTP_USE_TLS:__INSTALL_DIR__/__APP__/.env"
+
+                
