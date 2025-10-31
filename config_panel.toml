@@ -1,0 +1,43 @@
+version = "1.0"
+
+[main]
+name.en = "Configuration panel"
+name.fr = "Panneau de configuration"
+services = ["__APP__-backend", "__APP__-celery", "__APP__-celery-export"]
+
+    [main.smtp]
+    name.en = "SMTP configuration"
+    name.fr = "Paramètres SMTP"
+
+                [main.smtp.email_smtp]
+                ask.en = "Activation"
+                ask.fr = "Activation"
+                type = "boolean"
+                yes = "true"
+                no = ""
+                bind = "EMAIL_SMTP:__INSTALL_DIR__/__APP__/.env"
+
+
+                [main.smtp.from_email]
+                ask.en = "The email address Baserow will send emails from."
+                ask.fr = "Adresse d'envoi des messages"
+                type = "email"
+                bind = "FROM_EMAIL:__INSTALL_DIR__/__APP__/.env"
+
+                [main.smtp.email_smtp_user]
+                ask.en = "The SMTP user email/id"
+                ask.fr = "Courriel / id d'utilisateur SMTP"
+                type = "email"
+                bind = "EMAIL_SMTP_USER:__INSTALL_DIR__/__APP__/.env"
+
+                [main.smtp.email_smtp_password]
+                ask.en = "user password or application token"
+                ask.fr = "Mot de passe ou jeton d’application SMTP."
+                type = "password"
+                bind = "EMAIL_SMTP_PASSWORD:__INSTALL_DIR__/__APP__/.env"
+
+                [main.smtp.email_smtp_host]
+                ask.en = "SMTP host"
+                ask.fr = "Nom d’hôte du serveur SMTP"
+                type = "string"
+                bind = "EMAIL_SMTP_HOST:__INSTALL_DIR__/__APP__/.env"
