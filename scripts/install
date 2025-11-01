@@ -1,0 +1,141 @@
+#!/bin/bash
+
+#=================================================
+# GENERIC START
+#=================================================
+# IMPORT GENERIC HELPERS
+#=================================================
+
+# source _common.sh
+source /usr/share/yunohost/helpers
+
+#=================================================
+# INITIALIZE SETTINGS
+#=================================================
+ynh_script_progression "Generating $app's secrets..."
+
+secret_key=$(ynh_string_random --length=24)
+jwt_secret=$(ynh_string_random --length=24)
+
+#=================================================
+# CREATE A PostgreSQL DATABASE
+#=================================================
+ynh_script_progression "Configuring a PostgreSQL database..."
+
+ynh_psql_db_shell <<< "ALTER ROLE baserow SET client_encoding TO 'utf8';"
+ynh_psql_db_shell <<< "ALTER ROLE baserow SET default_transaction_isolation TO 'read committed';"
+ynh_psql_db_shell <<< "ALTER ROLE baserow SET timezone TO 'UTC';"
+ynh_psql_db_shell <<< "GRANT ALL PRIVILEGES ON DATABASE baserow TO baserow;"
+ynh_psql_db_shell <<< "GRANT ALL PRIVILEGES ON SCHEMA public TO baserow;"
+ynh_psql_db_shell <<< "ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO baserow;"
+
+
+#=================================================
+# DOWNLOAD, CHECK AND UNPACK SOURCE
+#=================================================
+ynh_script_progression "Setting up source files..."
+
+ynh_setup_source --dest_dir="$install_dir/$app"
+
+
+#=================================================
+# APP ENV CONFIGURATION
+#=================================================
+ynh_config_add --template=".backend.env" --destination="$install_dir/$app/.env"
+ynh_config_add --template=".frontend.env" --destination="$install_dir/$app/web-frontend/.env"
+
+
+#=================================================
+# BUILDING BACKEND
+#=================================================
+ynh_script_progression "Building $app's backend..."
+
+pushd "$install_dir/$app"
+  python3 -m venv venv
+  source venv/bin/activate
+  ynh_hide_warnings pip3 install -e ./backend
+  ynh_hide_warnings pip3 install -e ./premium/backend
+  ynh_hide_warnings pip3 install -e ./enterprise/backend
+  ynh_hide_warnings pip install -r backend/requirements/base.txt
+  set -a  
+  source .env
+  set +a
+ynh_script_progression "Migrating $app's database... Have a break of 30 minutes !"
+  ynh_hide_warnings baserow migrate
+  ynh_hide_warnings baserow sync_templates
+  deactivate
+popd
+
+#=================================================
+# BUILDING FRONTEND
+#=================================================
+ynh_script_progression "Building $app's frontend..."
+
+pushd "$install_dir/$app/web-frontend"
+ynh_script_progression "Yarn install..."
+  yarn install
+ynh_script_progression "node..."
+
+  CI=true ./node_modules/nuxt/bin/nuxt.js build --config-file config/nuxt.config.local.js --quiet
+
+ynh_script_progression "Npm install..."
+
+  ynh_hide_warnings npm install --legacy-peer-deps
+ynh_script_progression "Npm run build..."
+ 
+  ynh_hide_warnings npm run build
+popd
+
+#=================================================
+# SYSTEM CONFIGURATION
+#=================================================
+ynh_script_progression "Adding system configurations related to $app..."
+
+ynh_config_add_nginx
+
+ynh_app_setting_set --app=$app --key=secret_key --value=$secret_key
+ynh_app_setting_set --app=$app --key=jwt_secret --value=$jwt_secret
+ynh_app_setting_set --app=$app --key=email_smtp --value=false
+ynh_app_setting_set --app=$app --key=email_smtp_use_ssl --value=false
+ynh_app_setting_set --app=$app --key=email_smtp_use_tls --value=false
+
+
+
+
+
+
+ynh_config_add_systemd --service="$app-backend" --template="baserow-backend.service"
+ynh_config_add_systemd --service="$app-frontend" --template="baserow-frontend.service"
+ynh_config_add_systemd --service="$app-celery" --template="baserow-celery.service"
+ynh_config_add_systemd --service="$app-celery-export" --template="baserow-celery-export.service"
+
+ynh_config_add_logrotate
+
+touch /var/log/$app/$app-backend.log
+touch /var/log/$app/$app-frontend.log
+
+chown -R $app:www-data /var/log/$app/
+chown -R $app:www-data $data_dir
+
+yunohost service add "$app-backend" --description="Baserow No-Code Editor - backend" --log="/var/log/$app/$app-backend.log"
+yunohost service add "$app-frontend" --description="Baserow No-Code Editor - frontend" --log="/var/log/$app/$app-frontend.log"
+yunohost service add "$app-celery" --description="Baserow No-Code Editor - Celery worker" --log="/var/log/$app/$app-celery.log"
+yunohost service add "$app-celery-export" --description="Baserow No-Code Editor - Celery worker Export" --log="/var/log/$app/$app-celery-export.log"
+
+
+#=================================================
+# START SYSTEMD SERVICE
+#=================================================
+ynh_script_progression "Starting $app's systemd service..."
+
+ynh_systemctl --service="$app-backend" --action="start"
+ynh_systemctl --service="$app-frontend" --action="start"
+ynh_systemctl --service="$app-celery" --action="start"
+ynh_systemctl --service="$app-celery-export" --action="start"
+
+#=================================================
+# END OF SCRIPT
+#=================================================
+
+ynh_script_progression "Installation of $app completed"
+

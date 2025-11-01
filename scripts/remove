@@ -1,0 +1,58 @@
+#!/bin/bash
+
+#=================================================
+# GENERIC START
+#=================================================
+# IMPORT GENERIC HELPERS
+#=================================================
+
+source _common.sh
+source /usr/share/yunohost/helpers
+
+#=================================================
+# REMOVE SYSTEM CONF
+#=================================================
+ynh_script_progression "Removing system configurations related to $app..."
+
+ynh_config_remove_logrotate
+
+ynh_systemctl --service="$app-backend" --action="stop" --log_path="systemd"
+ynh_systemctl --service="$app-frontend" --action="stop" --log_path="systemd"
+ynh_systemctl --service="$app-celery" --action="stop" --log_path="systemd"
+ynh_systemctl --service="$app-celery-export" --action="stop" --log_path="systemd"
+
+if ynh_hide_warnings yunohost service status "$app-backend" >/dev/null; then
+    yunohost service remove "$app-backend"
+fi
+ynh_config_remove_systemd "$app"
+
+if ynh_hide_warnings yunohost service status "$app-frontend" >/dev/null; then
+    yunohost service remove "$app-frontend"
+fi
+ynh_config_remove_systemd "$app-frontend"
+
+if ynh_hide_warnings yunohost service status "$app-celery" >/dev/null; then
+    yunohost service remove "$app-celery"
+fi
+ynh_config_remove_systemd "$app-celery"
+
+if ynh_hide_warnings yunohost service status "$app-celery-export" >/dev/null; then
+    yunohost service remove "$app-celery-export"
+fi
+ynh_config_remove_systemd "$app-celery-export"
+
+#=================================================
+# REMOVE NGINX CONFIGURATION
+#=================================================
+ynh_script_progression --message="Removing NGINX web server configuration..." --weight=2
+
+# Remove the dedicated NGINX config
+ynh_config_remove_nginx
+# ynh_secure_remove --file="/etc/nginx/conf.d/$domain.d/$app.d"
+
+
+#=================================================
+# END OF SCRIPT
+#=================================================
+
+ynh_script_progression --message="Removal of $app completed" --last

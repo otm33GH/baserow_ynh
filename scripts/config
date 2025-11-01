@@ -1,0 +1,133 @@
+#!/bin/bash
+source /usr/share/yunohost/helpers
+
+ENV="$install_dir/$app/.env"
+SETTINGS="/etc/yunohost/apps/$app/settings.yml"
+
+smtp_status=$(grep -E "^email_smtp:" "$SETTINGS" | sed -E 's/.*: *([^ ]+).*/\1/' | tr '[:upper:]' '[:lower:]')
+ssl_status=$(grep -E "^email_smtp_use_ssl:" "$SETTINGS" | sed -E 's/.*: *([^ ]+).*/\1/' | tr '[:upper:]' '[:lower:]')
+tls_status=$(grep -E "^email_smtp_use_tls:" "$SETTINGS" | sed -E 's/.*: *([^ ]+).*/\1/' | tr '[:upper:]' '[:lower:]')
+
+get__email_smtp() {
+    case "$smtp_status" in
+        true|1|yes)  echo true ;;
+        false|0|no)  echo false ;;
+    esac
+    return 0
+}
+
+set__email_smtp() {
+
+    # Normalisation des valeurs
+    case "$email_smtp" in
+        true|1|yes|True|YES)
+            normalized="true"
+            ;;
+        false|0|no|False|NO)
+            normalized="false"
+            ;;
+        *)
+            echo "Invalid value for email_smtp : $email_smtp"
+            return 1
+            ;;
+    esac
+
+    if [ "$normalized" = "true" ]; then
+        sed -i 's/^#EMAIL_SMTP=/EMAIL_SMTP=/' "$ENV"
+    else
+        sed -i 's/^EMAIL_SMTP=/#EMAIL_SMTP=/' "$ENV"
+    fi
+
+    if grep -q "^email_smtp:" "$SETTINGS"; then
+        sed -i "s/^email_smtp:.*/email_smtp: $normalized/" "$SETTINGS"
+    else
+        echo "email_smtp: $normalized" >> "$SETTINGS"
+    fi
+
+    return 0
+}
+
+get__email_smtp_use_ssl() {
+    case "$ssl_status" in
+        true|1|yes)  echo true ;;
+        false|0|no)  echo false ;;
+    esac
+    return 0
+}
+
+set__email_smtp_use_ssl() {
+
+    # Normalisation
+    case "$email_smtp_use_ssl" in
+        true|1|yes|True|YES)
+            normalized="true"
+            ;;
+        false|0|no|False|NO)
+            normalized="false"
+            ;;
+        *)
+            echo "Invalid value for email_smtp_use_ssl : $email_smtp_use_ssl"
+            return 1
+            ;;
+    esac
+
+    if [ "$normalized" = "true" ]; then
+        sed -i 's/^#EMAIL_SMTP_USE_SSL=/EMAIL_SMTP_USE_SSL=/' "$ENV"
+    else
+        sed -i 's/^EMAIL_SMTP_USE_SSL=/#EMAIL_SMTP_USE_SSL=/' "$ENV"
+    fi
+
+    if grep -q "^email_smtp_use_ssl:" "$SETTINGS"; then
+        sed -i "s/^email_smtp_use_ssl:.*/email_smtp_use_ssl: $normalized/" "$SETTINGS"
+    else
+        echo "email_smtp_use_ssl: $normalized" >> "$SETTINGS"
+    fi
+
+    return 0
+}
+
+get__email_smtp_use_tls() {
+    case "$tls_status" in
+        true|1|yes)  echo true ;;
+        false|0|no)  echo false ;;
+    esac
+    return 0
+}
+
+set__email_smtp_use_tls() {
+
+    # Normalisation
+    case "$email_smtp_use_tls" in
+        true|1|yes|True|YES)
+            normalized="true"
+            ;;
+        false|0|no|False|NO)
+            normalized="false"
+            ;;
+        *)
+            echo "Invalid value for email_smtp_use_tls : $email_smtp_use_tls"
+            return 1
+            ;;
+    esac
+
+    # .env
+    if [ "$normalized" = "true" ]; then
+        sed -i 's/^#EMAIL_SMTP_USE_TLS=/EMAIL_SMTP_USE_TLS=/' "$ENV"
+    else
+        sed -i 's/^EMAIL_SMTP_USE_TLS=/#EMAIL_SMTP_USE_TLS=/' "$ENV"
+    fi
+
+    # settings.yml
+    if grep -q "^email_smtp_use_tls:" "$SETTINGS"; then
+        sed -i "s/^email_smtp_use_tls:.*/email_smtp_use_tls: $normalized/" "$SETTINGS"
+    else
+        echo "email_smtp_use_tls: $normalized" >> "$SETTINGS"
+    fi
+
+    return 0
+}
+
+
+
+ynh_abort_if_errors
+ynh_app_config_run $1

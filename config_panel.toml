@@ -1,0 +1,144 @@
+version = "1.0"
+
+[main]
+name.en = "Configuration panel"
+name.fr = "Panneau de configuration"
+services = ["__APP__-backend"]
+
+
+  	[main.stmp]
+  	name.en = "SMTP configuration"
+  	name.fr = "Paramètres SMTP"
+
+		[main.stmp.email_smtp]
+                ask.en = "Activation"
+                ask.fr = "Activation"
+                type = "boolean"
+                bind = "null"
+
+                [main.smtp.from_email]
+                ask.en = "The email address Baserow will send emails from."
+                ask.fr = "Adresse d'envoi des messages"
+                type = "email"
+                bind = "FROM_EMAIL:__INSTALL_DIR__/__APP__/.env"
+                visible = "email_smtp == true"
+
+                [main.smtp.email_smtp_user]
+                ask.en = "The SMTP user email/id"
+                ask.fr = "Courriel / id d'utilisateur SMTP"
+                type = "email"
+                bind = "EMAIL_SMTP_USER:__INSTALL_DIR__/__APP__/.env"
+                visible = "email_smtp == true"
+
+                [main.smtp.email_smtp_password]
+                ask.en = "user password or application token"
+                ask.fr = "Mot de passe ou jeton d’application SMTP."
+                type = "password"
+                visible = "email_smtp == true"
+                bind = "EMAIL_SMTP_PASSWORD:__INSTALL_DIR__/__APP__/.env"
+
+                [main.smtp.email_smtp_host]
+                ask.en = "SMTP host"
+                ask.fr = "Nom d’hôte du serveur SMTP"
+                type = "string"
+                bind = "EMAIL_SMTP_HOST:__INSTALL_DIR__/__APP__/.env"
+                visible = "email_smtp == true"
+
+                [main.smtp.email_smtp_port]
+                ask.en = "SMTP port"
+                ask.fr = "Port du serveur SMTP"
+                type = "number"
+                bind = "EMAIL_SMTP_PORT:__INSTALL_DIR__/__APP__/.env"
+                visible = "email_smtp == true"
+
+                [main.smtp.email_smtp_use_ssl]
+                ask.en = "Use SSL"
+                ask.fr = "Activer la connexion SSL."
+		help.fr = "Ne pas utiliser en même temps que TLS"
+		help.en = "Do not use with TLS"
+		type = "boolean"
+                bind = "null"
+                visible = "email_smtp == true"
+
+                [main.smtp.email_smtp_use_tls]
+                ask.en = "Use TLS"
+                ask.fr = "Activer la connexion TLS"
+                help.fr = "Ne pas utiliser en même temps que SSL"
+                help.en = "Do not use with TLS"
+		type = "boolean"
+                bind = "null"
+                visible = "email_smtp == true"
+
+		[main.smtp.alert]
+		type = "alert"
+		ask.en = "Both SSL **and** TLS cannot be selected !"
+		ask.fr = "SSL **et** TLS ne doivent pas être sélectionnés ensemble !"
+		style = "danger"
+		icon = "warning"
+		visible = "email_smtp_use_tls == true && email_smtp_use_ssl == true"
+
+	[main.ai]
+	name.en = "AI models"
+	name.fr = "modèles AI"
+
+
+		[main.ai.baserow_ollama_host]
+				ask.fr = "Adresse du serveur"
+				type = "url"
+				bind = "BASEROW_OLLAMA_HOST:__INSTALL_DIR__/__APP__/.env"
+		
+		[main.ai.baserow_ollama_models]
+			        ask.fr = "liste des modèles"
+				help.fr = "liste des modèles disponibles, séparés par des virgules"
+			        type = "string"
+			        bind = "BASEROW_OLLAMA_MODELS:__INSTALL_DIR__/__APP__/.env"
+
+	[main.limit_size]
+	name.en = "Upload limit size"
+	name.fr = "Téléchargement de fichiers"
+
+		[main.limit_size.upload_files]
+				ask.fr = "Taille limite Baserow pour le téléchargement des fichiers en Mo"
+				ask.en = "Baserow size limit file upload (Mb)"
+				type = "number"
+				bind = "BASEROW_FILE_UPLOAD_SIZE_LIMIT_MB:__INSTALL_DIR__/__APP__/.env"
+
+
+                [main.limit_size.warning]
+                                ask.fr = "La taille limite Baserow pour le téléchargement des fichiers ne peut être supérieure à la taille limite fixée par défaut dans le fichier de configuration de NGNIX. Pour modifier cette dernière, changez la valeur de `client_max_body_size` dans `/etc/nginx/conf.d/__DOMAIN__.d/__APP__.conf`"
+                                ask.en = "Baserow size limit file upload (Mb)"
+                                type = "alert"
+				style = "warning"
+	[main.storage]
+	name.en = "AWS S3 bucket"
+	name.fr = "AWS S3 bucket"
+		
+		[main.storage.access_key_id]
+			ask = "AWS_ACCESS_KEY_ID"
+			type = "string"
+			bind = "AWS_ACCESS_KEY_ID:__INSTALL_DIR__/__APP__/.env"
+
+                [main.storage.secret_access_key]
+                        ask = "AWS_SECRET_ACCESS_KEY"
+                        type = "string"
+                        bind = "AWS_SECRET_ACCESS_KEY:__INSTALL_DIR__/__APP__/.env"
+
+                [main.storage.AWS_STORAGE_BUCKET_NAME]
+                        ask = "AWS_STORAGE_BUCKET_NAME"
+                        type = "string"
+                        bind = "AWS_STORAGE_BUCKET_NAME:__INSTALL_DIR__/__APP__/.env"
+
+                [main.storage.AWS_S3_REGION_NAME]
+                        ask = "AWS_S3_REGION_NAME"
+                        type = "string"
+                        bind = "AWS_S3_REGION_NAME:__INSTALL_DIR__/__APP__/.env"
+
+                [main.storage.AWS_S3_ENDPOINT_URL]
+                        ask = "AWS_S3_ENDPOINT_URL"
+                        type = "url"
+                        bind = "AWS_S3_ENDPOINT_URL:__INSTALL_DIR__/__APP__/.env"
+
+                [main.storage.AWS_S3_CUSTOM_DOMAIN]
+                        ask = "AWS_S3_CUSTOM_DOMAIN"
+                        type = "url"
+                        bind = "AWS_S3_CUSTOM_DOMAIN:__INSTALL_DIR__/__APP__/.env"
