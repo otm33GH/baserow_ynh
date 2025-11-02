@@ -8,124 +8,57 @@ smtp_status=$(grep -E "^email_smtp:" "$SETTINGS" | sed -E 's/.*: *([^ ]+).*/\1/'
 ssl_status=$(grep -E "^email_smtp_use_ssl:" "$SETTINGS" | sed -E 's/.*: *([^ ]+).*/\1/' | tr '[:upper:]' '[:lower:]')
 tls_status=$(grep -E "^email_smtp_use_tls:" "$SETTINGS" | sed -E 's/.*: *([^ ]+).*/\1/' | tr '[:upper:]' '[:lower:]')
 
-get__email_smtp() {
-    case "$smtp_status" in
-        true|1|yes)  echo true ;;
-        false|0|no)  echo false ;;
-    esac
-    return 0
+get__email_smtp(){
+ynh_app_setting_get --key=email_smtp
+}
+
+get__email_smtp_use_ssl(){
+ynh_app_setting_get --key=email_smtp_use_ssl
+}
+
+get__email_smtp_use_tls(){
+ynh_app_setting_get --key=email_smtp_use_tls
 }
 
 set__email_smtp() {
-
-    # Normalisation des valeurs
     case "$email_smtp" in
         true|1|yes|True|YES)
-            normalized="true"
+        ynh_replace --match='#EMAIL_SMTP=[^"]*' --replace="EMAIL_SMTP=$email_smtp" --file="/var/www/baserow/baserow/.env"
             ;;
         false|0|no|False|NO)
-            normalized="false"
-            ;;
-        *)
-            echo "Invalid value for email_smtp : $email_smtp"
-            return 1
+        ynh_replace --match='EMAIL_SMTP=[^"]*' --replace="#EMAIL_SMTP=$email_smtp" --file="/var/www/baserow/baserow/.env"
             ;;
     esac
-
-    if [ "$normalized" = "true" ]; then
-        sed -i 's/^#EMAIL_SMTP=/EMAIL_SMTP=/' "$ENV"
-    else
-        sed -i 's/^EMAIL_SMTP=/#EMAIL_SMTP=/' "$ENV"
-    fi
-
-    if grep -q "^email_smtp:" "$SETTINGS"; then
-        sed -i "s/^email_smtp:.*/email_smtp: $normalized/" "$SETTINGS"
-    else
-        echo "email_smtp: $normalized" >> "$SETTINGS"
-    fi
-
-    return 0
-}
-
-get__email_smtp_use_ssl() {
-    case "$ssl_status" in
-        true|1|yes)  echo true ;;
-        false|0|no)  echo false ;;
-    esac
-    return 0
+    ynh_app_setting_set --key=email_smtp --value="$email_smtp"
+    ynh_store_file_checksum "/var/www/baserow/baserow/.env"
 }
 
 set__email_smtp_use_ssl() {
-
-    # Normalisation
     case "$email_smtp_use_ssl" in
         true|1|yes|True|YES)
-            normalized="true"
+        ynh_replace --match='#EMAIL_SMTP_USE_SSL=[^"]*' --replace="EMAIL_SMTP_USE_SSL=$email_smtp_use_ssl" --file="/var/www/baserow/baserow/.env"
             ;;
         false|0|no|False|NO)
-            normalized="false"
-            ;;
-        *)
-            echo "Invalid value for email_smtp_use_ssl : $email_smtp_use_ssl"
-            return 1
+        ynh_replace --match='EMAIL_SMTP_USE_SSL=[^"]*' --replace="#EMAIL_SMTP_USE_SSL=$email_smtp_use_ssl" --file="/var/www/baserow/baserow/.env"
             ;;
     esac
-
-    if [ "$normalized" = "true" ]; then
-        sed -i 's/^#EMAIL_SMTP_USE_SSL=/EMAIL_SMTP_USE_SSL=/' "$ENV"
-    else
-        sed -i 's/^EMAIL_SMTP_USE_SSL=/#EMAIL_SMTP_USE_SSL=/' "$ENV"
-    fi
-
-    if grep -q "^email_smtp_use_ssl:" "$SETTINGS"; then
-        sed -i "s/^email_smtp_use_ssl:.*/email_smtp_use_ssl: $normalized/" "$SETTINGS"
-    else
-        echo "email_smtp_use_ssl: $normalized" >> "$SETTINGS"
-    fi
-
-    return 0
-}
-
-get__email_smtp_use_tls() {
-    case "$tls_status" in
-        true|1|yes)  echo true ;;
-        false|0|no)  echo false ;;
-    esac
-    return 0
+    ynh_app_setting_set --key=email_smtp_use_ssl --value="$email_smtp_use_ssl"
+    ynh_store_file_checksum "/var/www/baserow/baserow/.env"
 }
 
 set__email_smtp_use_tls() {
-
-    # Normalisation
     case "$email_smtp_use_tls" in
         true|1|yes|True|YES)
-            normalized="true"
-            ;;
+        ynh_replace --match='#EMAIL_SMTP_USE_TLS=[^"]*' --replace="EMAIL_SMTP_USE_TLS=$email_smtp_use_tls" --file="/var/www/baserow/baserow/.env"
+            ;;   
         false|0|no|False|NO)
-            normalized="false"
-            ;;
-        *)
-            echo "Invalid value for email_smtp_use_tls : $email_smtp_use_tls"
-            return 1
+        ynh_replace --match='EMAIL_SMTP_USE_TLS=[^"]*' --replace="#EMAIL_SMTP_USE_TLS=$email_smtp_use_tls" --file="/var/www/baserow/baserow/.env"
             ;;
     esac
-
-    # .env
-    if [ "$normalized" = "true" ]; then
-        sed -i 's/^#EMAIL_SMTP_USE_TLS=/EMAIL_SMTP_USE_TLS=/' "$ENV"
-    else
-        sed -i 's/^EMAIL_SMTP_USE_TLS=/#EMAIL_SMTP_USE_TLS=/' "$ENV"
-    fi
-
-    # settings.yml
-    if grep -q "^email_smtp_use_tls:" "$SETTINGS"; then
-        sed -i "s/^email_smtp_use_tls:.*/email_smtp_use_tls: $normalized/" "$SETTINGS"
-    else
-        echo "email_smtp_use_tls: $normalized" >> "$SETTINGS"
-    fi
-
-    return 0
+    ynh_app_setting_set --key=email_smtp_use_tls --value="$email_smtp_use_tls"
+    ynh_store_file_checksum "/var/www/baserow/baserow/.env"
 }
+
 
 set__upload_max_size() {
     ynh_replace --match='client_max_body_size [^"]*' --replace="client_max_body_size  ${upload_max_size}M  ;" --file="/etc/nginx/conf.d/$domain.d/$app.conf"
