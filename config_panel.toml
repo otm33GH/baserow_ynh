@@ -15,13 +15,14 @@ services = ["__APP__-backend"]
                 ask.fr = "Activation"
                 type = "boolean"
                 bind = "null"
+			    yes = "true"
+                no = "false"
 
                 [main.smtp.from_email]
                 ask.en = "The email address Baserow will send emails from."
                 ask.fr = "Adresse d'envoi des messages"
                 type = "email"
                 bind = "FROM_EMAIL:__INSTALL_DIR__/__APP__/.env"
-                visible = "email_smtp == true"
 
                 [main.smtp.email_smtp_user]
                 ask.en = "The SMTP user email/id"
@@ -34,7 +35,6 @@ services = ["__APP__-backend"]
                 ask.en = "user password or application token"
                 ask.fr = "Mot de passe ou jeton d’application SMTP."
                 type = "password"
-                visible = "email_smtp == true"
                 bind = "EMAIL_SMTP_PASSWORD:__INSTALL_DIR__/__APP__/.env"
 
                 [main.smtp.email_smtp_host]
@@ -42,32 +42,34 @@ services = ["__APP__-backend"]
                 ask.fr = "Nom d’hôte du serveur SMTP"
                 type = "string"
                 bind = "EMAIL_SMTP_HOST:__INSTALL_DIR__/__APP__/.env"
-                visible = "email_smtp == true"
 
                 [main.smtp.email_smtp_port]
                 ask.en = "SMTP port"
                 ask.fr = "Port du serveur SMTP"
                 type = "number"
                 bind = "EMAIL_SMTP_PORT:__INSTALL_DIR__/__APP__/.env"
-                visible = "email_smtp == true"
+
+				
 
                 [main.smtp.email_smtp_use_ssl]
                 ask.en = "Use SSL"
                 ask.fr = "Activer la connexion SSL."
-		help.fr = "Ne pas utiliser en même temps que TLS"
-		help.en = "Do not use with TLS"
-		type = "boolean"
+				help.fr = "Ne pas utiliser en même temps que TLS"
+				help.en = "Do not use with TLS"
+				type = "boolean"
                 bind = "null"
-                visible = "email_smtp == true"
+				yes = "true"
+                no = "false"
 
                 [main.smtp.email_smtp_use_tls]
                 ask.en = "Use TLS"
                 ask.fr = "Activer la connexion TLS"
                 help.fr = "Ne pas utiliser en même temps que SSL"
                 help.en = "Do not use with TLS"
-		type = "boolean"
+		        type = "boolean"
                 bind = "null"
-                visible = "email_smtp == true"
+				yes = "true"
+                no = "false"
 
 		[main.smtp.alert]
 		type = "alert"
@@ -97,18 +99,13 @@ services = ["__APP__-backend"]
 	name.en = "Upload limit size"
 	name.fr = "Téléchargement de fichiers"
 
-		[main.limit_size.upload_files]
-				ask.fr = "Taille limite Baserow pour le téléchargement des fichiers en Mo"
-				ask.en = "Baserow size limit file upload (Mb)"
+		[main.limit_size.upload_max_size]
+				ask.fr = "Taille limite pour le téléchargement des fichiers en Mo"
+				ask.en = "File upload limit size(Mb)"
 				type = "number"
 				bind = "BASEROW_FILE_UPLOAD_SIZE_LIMIT_MB:__INSTALL_DIR__/__APP__/.env"
 
 
-                [main.limit_size.warning]
-                                ask.fr = "La taille limite Baserow pour le téléchargement des fichiers ne peut être supérieure à la taille limite fixée par défaut dans le fichier de configuration de NGNIX. Pour modifier cette dernière, changez la valeur de `client_max_body_size` dans `/etc/nginx/conf.d/__DOMAIN__.d/__APP__.conf`"
-                                ask.en = "Baserow size limit file upload (Mb)"
-                                type = "alert"
-				style = "warning"
 	[main.storage]
 	name.en = "AWS S3 bucket"
 	name.fr = "AWS S3 bucket"
