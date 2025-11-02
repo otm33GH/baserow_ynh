@@ -95,15 +95,20 @@ services = ["__APP__-backend"]
 			        type = "string"
 			        bind = "BASEROW_OLLAMA_MODELS:__INSTALL_DIR__/__APP__/.env"
 
-	[main.limit_size]
-	name.en = "Upload limit size"
-	name.fr = "Téléchargement de fichiers"
+        [main.limit_size]
+        name.en = "Upload limit size"
+        name.fr = "Téléchargement de fichiers"
 
-		[main.limit_size.upload_max_size]
-				ask.fr = "Taille limite pour le téléchargement des fichiers en Mo"
-				ask.en = "File upload limit size(Mb)"
-				type = "number"
-				bind = "BASEROW_FILE_UPLOAD_SIZE_LIMIT_MB:__INSTALL_DIR__/__APP__/.env"
+                [main.limit_size.warning]
+                                ask.fr = "La taille limite Baserow pour le téléchargement des fichiers ne peut être supérieure à la taille limite fixée par défaut dans le fichier de configuration de NGNIX. P>
+                                ask.en = "Baserow size limit file upload (Mb)"
+                                type = "alert"
+                                style = "warning"
+
+                [main.limit_size.upload_max_size]
+                                ask.fr = "Taille limite Nginx pour le téléchargement des fichiers en Mo"
+                                ask.en = "Nginx limit size file upload (Mb)"
+                                type = "number"
 
 
 	[main.storage]
