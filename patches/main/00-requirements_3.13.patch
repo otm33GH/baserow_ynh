@@ -14,7 +14,7 @@
      #   langsmith
      #   opentelemetry-instrumentation
 -pillow==10.3.0
-+pillow>=11.5.0,<12
++pillow>=12
      # via -r base.in
  posthog==3.5.0
      # via -r base.in
