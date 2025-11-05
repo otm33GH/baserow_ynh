@@ -1,6 +1,12 @@
-diff --git a/baserow/backend/requirements/base.txt b/baserow/backend/requirements/base.txt
---- a/baserow/backend/requirements/base.txt	2025-11-05 21:55:14.454689443 +0100
-+++ b/baserow/backend/requirements/base.txt	2025-11-05 21:54:16.979150105 +0100
+@@ -3,7 +3,7 @@
+ # by the following command:
+ #
+ #    pip-compile --output-file=base.txt base.in
+-#
++# Adaptations pour python 3.13
+ advocate==1.0.0
+     # via -r base.in
+ amqp==5.3.1
 @@ -467,7 +467,7 @@
      #   langchain-core
      #   langsmith
