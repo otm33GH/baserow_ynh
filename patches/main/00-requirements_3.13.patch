@@ -1,3 +1,4 @@
+diff --git a/baserow/backend/requirements/base.txt b/baserow/backend/requirements/base.txt
 --- a/baserow/backend/requirements/base.txt	2025-11-05 21:55:14.454689443 +0100
 +++ b/baserow/backend/requirements/base.txt	2025-11-05 21:54:16.979150105 +0100
 @@ -467,7 +467,7 @@
