@@ -1,0 +1,20 @@
+--- base.txt	2025-11-05 21:55:14.454689443 +0100
++++ base3.13.txt	2025-11-06 00:07:29.709536072 +0100
+@@ -3,7 +3,7 @@
+ # by the following command:
+ #
+ #    pip-compile --output-file=base.txt base.in
+-#
++# Adaptations pour python 3.13
+ advocate==1.0.0
+     # via -r base.in
+ amqp==5.3.1
+@@ -467,7 +467,7 @@
+     #   langchain-core
+     #   langsmith
+     #   opentelemetry-instrumentation
+-pillow==10.3.0
++pillow>=11.5.0,<12
+     # via -r base.in
+ posthog==3.5.0
+     # via -r base.in
