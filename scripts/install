@@ -51,7 +51,7 @@ ynh_config_add --template="frontend.env" --destination="$install_dir/$app/web-fr
 ynh_script_progression "Building $app's backend..."
 
 pushd "$install_dir/$app"
-  python3 -m venv venv
+  /opt/python3.12 -m venv venv
   source venv/bin/activate
   ynh_hide_warnings pip3 install -e ./backend
   ynh_hide_warnings pip3 install -e ./premium/backend
