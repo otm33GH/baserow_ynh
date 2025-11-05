@@ -100,15 +100,17 @@ services = ["__APP__-backend"]
         name.fr = "Téléchargement de fichiers"
 
                 [main.limit_size.warning]
-                                ask.fr = "La taille limite Baserow pour le téléchargement des fichiers ne peut être supérieure à la taille limite fixée par défaut dans le fichier de configuration de NGNIX. P>
-                                ask.en = "Baserow size limit file upload (Mb)"
+                                ask.fr = "Taille limite pour l'import de fichiers dans Baserow -paramètre reporté dans la conf de NGINX"
+                                ask.en = "Baserow size limit file upload"
                                 type = "alert"
                                 style = "warning"
 
                 [main.limit_size.upload_max_size]
-                                ask.fr = "Taille limite Nginx pour le téléchargement des fichiers en Mo"
-                                ask.en = "Nginx limit size file upload (Mb)"
+                                ask.fr = "Taille limite pour le téléchargement des fichiers en Mo"
+                                ask.en = "Size limit file upload (Mb)"
                                 type = "number"
+
+
 
 
 	[main.storage]
