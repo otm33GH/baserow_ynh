@@ -18,8 +18,7 @@
      # via -r base.in
  posthog==3.5.0
      # via -r base.in
-
-     
+  
 @@ -663,7 +663,7 @@
      #   daphne
  txaio==23.1.1
@@ -30,8 +29,8 @@
      #   -r base.in
      #   anthropic
 
---- baserow/backend/src/baserow/core/utils.py
-+++ baserow/backend/src/baserow/core/utils.py
+--- baserow/backend/src/baserow/core/utils.py  2025-10-08 15:46:27.000000000 +0200
++++ baserow/backend/src/baserow/core/utils.py  2025-11-06 21:56:24.372597635 +0100
 
 @@ -545,7 +545,7 @@
  ) -> str:
