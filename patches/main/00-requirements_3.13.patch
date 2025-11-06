@@ -24,7 +24,7 @@
  txaio==23.1.1
      # via autobahn
 -typing-extensions==4.11.0
-+typing-extensions==4.15.0
++typing-extensions>=4.12
      # via
      #   -r base.in
      #   anthropic
