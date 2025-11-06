@@ -37,7 +37,7 @@
      """
      Removes illegal unicode characters from the provided content. If you for example
 -    run something like `b"\uD83D".encode("utf-8")`, it will result in a
-+*** removed line ***
++    patch test here
      UnicodeEncodeError. This function removed the illegal characters, it keeps the
      valid emoji's.
 
