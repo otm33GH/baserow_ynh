@@ -28,3 +28,15 @@
      #   -r base.in
      #   anthropic
 
+--- baserow/backend/src/baserow/core/utils.py
++++ baserow/backend/src/baserow/core/utils.py
+
+@@ -545,7 +545,7 @@
+ ) -> str:
+     """
+     Removes illegal unicode characters from the provided content. If you for example
+-    run something like `b"\uD83D".encode("utf-8")`, it will result in a
++*** removed line ***
+     UnicodeEncodeError. This function removed the illegal characters, it keeps the
+     valid emoji's.
+
