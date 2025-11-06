@@ -109,6 +109,7 @@ services = ["__APP__-backend"]
                                 ask.fr = "Taille limite pour le téléchargement des fichiers en Mo"
                                 ask.en = "Size limit file upload (Mb)"
                                 type = "number"
+								bind = "null"
 
 
 
