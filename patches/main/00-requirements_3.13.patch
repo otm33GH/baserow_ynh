@@ -41,3 +41,13 @@
      UnicodeEncodeError. This function removed the illegal characters, it keeps the
      valid emoji's.
 
+--- baserow/backend/src/baserow/core/formula/parser/generated/BaserowFormulaLexer.py       2025-11-06 23:36:10.62834186>
++++ baserow/backend/src/baserow/core/formula/parser/generated/BaserowFormulaLexer.py  2025-10-08 15:46:27.00000000>
+@@ -1,7 +1,7 @@
+ # Generated from BaserowFormulaLexer.g4 by ANTLR 4.9
+ from antlr4 import *
+ from io import StringIO
+-from typing import TextIO
++from typing.io import TextIO
+ import sys
+ 
