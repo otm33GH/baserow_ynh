@@ -11,7 +11,7 @@ Le panneau de configuration permet d'éditer les paramètres suivants :
 * Modèles AI
 
 ### Génération d'applications
-Les applications créées avec Baserow peuvent être déployées sur des sous domaines de [__DOMAIN__](__DOMAIN__).
+Les applications créées avec Baserow peuvent être déployées sur des sous-domaines de [__DOMAIN__](__DOMAIN__).
 Par défaut, ces sous-domaines ne seront pas couverts par un certificat reconnu par les navigateurs.
 Pour les rendre accessibles en https, il convient de suivre les étapes suivantes :
 - créer le sous-domaine correspondant à l'application dans yunohost et y installer un certificat Let's Encrypt.
