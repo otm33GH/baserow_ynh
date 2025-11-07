@@ -1,12 +1,7 @@
 #!/bin/bash
 source /usr/share/yunohost/helpers
 
-ENV="$install_dir/$app/.env"
-SETTINGS="/etc/yunohost/apps/$app/settings.yml"
-
-smtp_status=$(grep -E "^email_smtp:" "$SETTINGS" | sed -E 's/.*: *([^ ]+).*/\1/' | tr '[:upper:]' '[:lower:]')
-ssl_status=$(grep -E "^email_smtp_use_ssl:" "$SETTINGS" | sed -E 's/.*: *([^ ]+).*/\1/' | tr '[:upper:]' '[:lower:]')
-tls_status=$(grep -E "^email_smtp_use_tls:" "$SETTINGS" | sed -E 's/.*: *([^ ]+).*/\1/' | tr '[:upper:]' '[:lower:]')
+BACKEND_ENV="${install_dir}/${app}/.env"
 
 get__upload_max_size() {
 ynh_app_setting_get --key=upload_max_size
@@ -27,45 +22,45 @@ ynh_app_setting_get --key=email_smtp_use_tls
 set__email_smtp() {
     case "$email_smtp" in
         true|1|yes|True|YES)
-        ynh_replace --match='#EMAIL_SMTP=[^"]*' --replace="EMAIL_SMTP=$email_smtp" --file="/var/www/baserow/baserow/.env"
+        ynh_replace --match='#EMAIL_SMTP=[^"]*' --replace="EMAIL_SMTP=$email_smtp" --file="$BACKEND_ENV"
             ;;
         false|0|no|False|NO)
-        ynh_replace --match='EMAIL_SMTP=[^"]*' --replace="#EMAIL_SMTP=$email_smtp" --file="/var/www/baserow/baserow/.env"
+        ynh_replace --match='EMAIL_SMTP=[^"]*' --replace="#EMAIL_SMTP=$email_smtp" --file="$BACKEND_ENV"
             ;;
     esac
     ynh_app_setting_set --key=email_smtp --value="$email_smtp"
-    ynh_store_file_checksum "/var/www/baserow/baserow/.env"
+    ynh_store_file_checksum "$BACKEND_ENV"
 }
 
 set__email_smtp_use_ssl() {
     case "$email_smtp_use_ssl" in
         true|1|yes|True|YES)
-        ynh_replace --match='#EMAIL_SMTP_USE_SSL=[^"]*' --replace="EMAIL_SMTP_USE_SSL=$email_smtp_use_ssl" --file="/var/www/baserow/baserow/.env"
+        ynh_replace --match='#EMAIL_SMTP_USE_SSL=[^"]*' --replace="EMAIL_SMTP_USE_SSL=$email_smtp_use_ssl" --file="$BACKEND_ENV"
             ;;
         false|0|no|False|NO)
-        ynh_replace --match='EMAIL_SMTP_USE_SSL=[^"]*' --replace="#EMAIL_SMTP_USE_SSL=$email_smtp_use_ssl" --file="/var/www/baserow/baserow/.env"
+        ynh_replace --match='EMAIL_SMTP_USE_SSL=[^"]*' --replace="#EMAIL_SMTP_USE_SSL=$email_smtp_use_ssl" --file="$BACKEND_ENV"
             ;;
     esac
     ynh_app_setting_set --key=email_smtp_use_ssl --value="$email_smtp_use_ssl"
-    ynh_store_file_checksum "/var/www/baserow/baserow/.env"
+    ynh_store_file_checksum "$BACKEND_ENV"
 }
 
 set__email_smtp_use_tls() {
     case "$email_smtp_use_tls" in
         true|1|yes|True|YES)
-        ynh_replace --match='#EMAIL_SMTP_USE_TLS=[^"]*' --replace="EMAIL_SMTP_USE_TLS=$email_smtp_use_tls" --file="/var/www/baserow/baserow/.env"
+        ynh_replace --match='#EMAIL_SMTP_USE_TLS=[^"]*' --replace="EMAIL_SMTP_USE_TLS=$email_smtp_use_tls" --file="$BACKEND_ENV"
             ;;   
         false|0|no|False|NO)
-        ynh_replace --match='EMAIL_SMTP_USE_TLS=[^"]*' --replace="#EMAIL_SMTP_USE_TLS=$email_smtp_use_tls" --file="/var/www/baserow/baserow/.env"
+        ynh_replace --match='EMAIL_SMTP_USE_TLS=[^"]*' --replace="#EMAIL_SMTP_USE_TLS=$email_smtp_use_tls" --file="$BACKEND_ENV"
             ;;
     esac
     ynh_app_setting_set --key=email_smtp_use_tls --value="$email_smtp_use_tls"
-    ynh_store_file_checksum "/var/www/baserow/baserow/.env"
+    ynh_store_file_checksum "$BACKEND_ENV"
 }
 
 
 set__upload_max_size() {
-    ynh_replace --match='BASEROW_FILE_UPLOAD_SIZE_LIMIT_MB=[^"]*' --replace="BASEROW_FILE_UPLOAD_SIZE_LIMIT_MB=$upload_max_size" --file="$install_dir/$app/.env"
+    ynh_replace --match='BASEROW_FILE_UPLOAD_SIZE_LIMIT_MB=[^"]*' --replace="BASEROW_FILE_UPLOAD_SIZE_LIMIT_MB=$upload_max_size" --file="$BACKEND_ENV"
     ynh_replace --match='client_max_body_size [^"]*' --replace="client_max_body_size  ${upload_max_size}M  ;" --file="/etc/nginx/conf.d/$domain.d/$app.conf"
     ynh_store_file_checksum "/etc/nginx/conf.d/$domain.d/$app.conf"
     ynh_app_setting_set --key=upload_max_size --value="$upload_max_size"
