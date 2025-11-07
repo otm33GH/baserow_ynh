@@ -41,6 +41,16 @@ if ynh_hide_warnings yunohost service status "$app-celery-export" >/dev/null; th
 fi
 ynh_config_remove_systemd "$app-celery-export"
 
+
+if [ -d "$install_dir" ]; then
+    rm -rf "$install_dir"
+fi
+
+# Supprimer les logs
+if [ -d "/var/log/$app" ]; then
+    rm -rf "/var/log/$app"
+fi
+
 #=================================================
 # REMOVE NGINX CONFIGURATION
 #=================================================
