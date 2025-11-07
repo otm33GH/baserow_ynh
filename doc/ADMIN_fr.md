@@ -1,6 +1,6 @@
 ### Utilisateur administrateur
 
-Rendez-vous sur la page [__DOMAIN__](__DOMAIN__) pour créer le premier utilisateur.
+Rendez-vous sur la page [__DOMAIN__](__DOMAIN__) pour créer le premier utilisateur.  
 ❗Le **premier** utilisateur créé aura des droits d'administration, les suivants seront des utilisateurs normaux.
 
 ### Configuration
