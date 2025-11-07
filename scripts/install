@@ -75,7 +75,9 @@ ynh_script_progression "Building $app's frontend..."
 
 pushd "$install_dir/$app/web-frontend"
 ynh_script_progression "Yarn install..."
-  yarn install
+corepack enable
+corepack prepare  yarn@latest --activate
+yarn install
 ynh_script_progression "node..."
 
   CI=true ./node_modules/nuxt/bin/nuxt.js build --config-file config/nuxt.config.local.js --quiet
