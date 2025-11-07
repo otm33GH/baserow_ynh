@@ -88,10 +88,10 @@ ynh_config_add_nginx
 
 ynh_app_setting_set --app=$app --key=secret_key --value=$secret_key
 
-yunohost service add $app-backend --description=Baserow No-Code Editor - backend --log=/var/log/$app/$app-backend.log
-yunohost service add $app-frontend --description=Baserow No-Code Editor - frontend --log=/var/log/$app/$app-frontend.log
-yunohost service add $app-celery --description=Baserow No-Code Editor - Celery worker --log=/var/log/$app/$app-celery.log
-yunohost service add $app-celery-export --description=Baserow No-Code Editor - Celery worker Export --log=/var/log/$app/$app-celery-export.log
+yunohost service add $app-backend --description="Baserow No-Code Editor - backend" --log=/var/log/$app/$app-backend.log
+yunohost service add $app-frontend --description="Baserow No-Code Editor - frontend" --log=/var/log/$app/$app-frontend.log
+yunohost service add $app-celery --description="Baserow No-Code Editor - Celery worker" --log=/var/log/$app/$app-celery.log
+yunohost service add $app-celery-export --description="Baserow No-Code Editor - Celery worker Export" --log=/var/log/$app/$app-celery-export.log
 
 ynh_config_add_logrotate
 
