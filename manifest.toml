@@ -40,7 +40,6 @@ ram.runtime = "1500M"
     url = "https://github.com/baserow/baserow/archive/refs/tags/1.35.3.tar.gz" 
     sha256 = "1920112c370f9cbb54e6c8d9c56187726fb6724197353bb25601aad4f37ed03d"
     autoupdate.strategy = "latest_github_tag"
-    autoupdate.assets = "tar.gz"
 
     [resources.system_user]
 
