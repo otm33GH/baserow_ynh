@@ -102,7 +102,7 @@ services = ["__APP__-backend"]
                                 ask.fr = "Taille limite pour l'import de fichiers dans Baserow -paramètre reporté dans la conf de NGINX"
                                 ask.en = "Baserow size limit file upload"
                                 type = "alert"
-                                style = "warning"
+                                style = "danger"
 
                 [main.limit_size.upload_max_size]
                                 ask.fr = "Taille limite pour le téléchargement des fichiers en Mo"
