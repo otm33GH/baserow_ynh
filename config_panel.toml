@@ -76,7 +76,6 @@ services = ["__APP__-backend"]
 		ask.en = "Both SSL **and** TLS cannot be selected !"
 		ask.fr = "SSL **et** TLS ne doivent pas être sélectionnés ensemble !"
 		style = "danger"
-		icon = "warning"
 		visible = "email_smtp_use_tls == true && email_smtp_use_ssl == true"
 
 	[main.ai]
