@@ -8,6 +8,10 @@ smtp_status=$(grep -E "^email_smtp:" "$SETTINGS" | sed -E 's/.*: *([^ ]+).*/\1/'
 ssl_status=$(grep -E "^email_smtp_use_ssl:" "$SETTINGS" | sed -E 's/.*: *([^ ]+).*/\1/' | tr '[:upper:]' '[:lower:]')
 tls_status=$(grep -E "^email_smtp_use_tls:" "$SETTINGS" | sed -E 's/.*: *([^ ]+).*/\1/' | tr '[:upper:]' '[:lower:]')
 
+get__upload_max_size() {
+ynh_app_setting_get --key=upload_max_size
+}
+
 get__email_smtp(){
 ynh_app_setting_get --key=email_smtp
 }
