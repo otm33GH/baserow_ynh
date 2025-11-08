@@ -42,9 +42,9 @@ fi
 ynh_config_remove_systemd "$app-celery-export"
 
 
-#if [ -d "$install_dir" ]; then
-#    ynh_safe_rm "$install_dir"
-#fi
+if [ -d "$install_dir" ]; then
+    ynh_safe_rm "$install_dir"
+fi
 
 
 #=================================================
