@@ -17,7 +17,7 @@ ynh_script_progression "Generating $app's secrets..."
 secret_key=$(ynh_string_random --length=24)
 jwt_secret=$(ynh_string_random --length=24)
 upload_max_size=100
-
+ynh_safe_rm "$install_dir"
 #=================================================
 # CREATE A PostgreSQL DATABASE
 #=================================================
