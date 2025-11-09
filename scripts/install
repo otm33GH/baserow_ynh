@@ -78,7 +78,7 @@ ynh_script_progression "Yarn install..."
 corepack enable
 corepack prepare  yarn@latest --activate
 yarn install
-ynh_script_progression "node..."
+ynh_script_progression "Build..."
 
   CI=true ./node_modules/nuxt/bin/nuxt.js build --config-file config/nuxt.config.local.js --quiet
 
