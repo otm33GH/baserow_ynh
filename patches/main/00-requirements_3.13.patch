@@ -9,6 +9,105 @@
  advocate==1.0.0
      # via -r base.in
  amqp==5.3.1
+@@ -347,7 +347,7 @@
+     #   langchain-openai
+ openpyxl==3.1.5
+     # via -r base.in
+-opentelemetry-api==1.37.0
++opentelemetry-api==1.38.0
+     # via
+     #   -r base.in
+     #   opentelemetry-exporter-otlp-proto-http
+@@ -368,11 +368,11 @@
+     #   opentelemetry-propagator-aws-xray
+     #   opentelemetry-sdk
+     #   opentelemetry-semantic-conventions
+-opentelemetry-exporter-otlp-proto-common==1.37.0
++opentelemetry-exporter-otlp-proto-common==1.38.0
+     # via opentelemetry-exporter-otlp-proto-http
+-opentelemetry-exporter-otlp-proto-http==1.37.0
++opentelemetry-exporter-otlp-proto-http==1.38.0
+     # via -r base.in
+-opentelemetry-instrumentation==0.58b0
++opentelemetry-instrumentation==0.59b0
+     # via
+     #   -r base.in
+     #   opentelemetry-instrumentation-aiohttp-client
+@@ -388,49 +388,49 @@
+     #   opentelemetry-instrumentation-redis
+     #   opentelemetry-instrumentation-requests
+     #   opentelemetry-instrumentation-wsgi
+-opentelemetry-instrumentation-aiohttp-client==0.58b0
++opentelemetry-instrumentation-aiohttp-client==0.59b0
+     # via -r base.in
+-opentelemetry-instrumentation-asgi==0.58b0
++opentelemetry-instrumentation-asgi==0.59b0
+     # via -r base.in
+-opentelemetry-instrumentation-botocore==0.58b0
++opentelemetry-instrumentation-botocore==0.59b0
+     # via -r base.in
+-opentelemetry-instrumentation-celery==0.58b0
++opentelemetry-instrumentation-celery==0.59b0
+     # via -r base.in
+-opentelemetry-instrumentation-dbapi==0.58b0
++opentelemetry-instrumentation-dbapi==0.59b0
+     # via
+     #   -r base.in
+     #   opentelemetry-instrumentation-psycopg
+     #   opentelemetry-instrumentation-psycopg2
+-opentelemetry-instrumentation-django==0.58b0
++opentelemetry-instrumentation-django==0.59b0
+     # via -r base.in
+-opentelemetry-instrumentation-grpc==0.58b0
++opentelemetry-instrumentation-grpc==0.59b0
+     # via -r base.in
+-opentelemetry-instrumentation-logging==0.58b0
++opentelemetry-instrumentation-logging==0.59b0
+     # via -r base.in
+-opentelemetry-instrumentation-psycopg==0.58b0
++opentelemetry-instrumentation-psycopg==0.59b0
+     # via -r base.in
+-opentelemetry-instrumentation-psycopg2==0.58b0
++opentelemetry-instrumentation-psycopg2==0.59b0
+     # via -r base.in
+-opentelemetry-instrumentation-redis==0.58b0
++opentelemetry-instrumentation-redis==0.59b0
+     # via -r base.in
+-opentelemetry-instrumentation-requests==0.58b0
++opentelemetry-instrumentation-requests==0.59b0
+     # via -r base.in
+-opentelemetry-instrumentation-wsgi==0.58b0
++opentelemetry-instrumentation-wsgi==0.59b0
+     # via
+     #   -r base.in
+     #   opentelemetry-instrumentation-django
+ opentelemetry-propagator-aws-xray==1.0.2
+     # via opentelemetry-instrumentation-botocore
+-opentelemetry-proto==1.37.0
++opentelemetry-proto==1.38.0
+     # via
+     #   -r base.in
+     #   opentelemetry-exporter-otlp-proto-common
+     #   opentelemetry-exporter-otlp-proto-http
+-opentelemetry-sdk==1.37.0
++opentelemetry-sdk==1.38.0
+     # via
+     #   -r base.in
+     #   opentelemetry-exporter-otlp-proto-http
+-opentelemetry-semantic-conventions==0.58b0
++opentelemetry-semantic-conventions==0.59b0
+     # via
+     #   -r base.in
+     #   opentelemetry-instrumentation
+@@ -445,7 +445,7 @@
+     #   opentelemetry-instrumentation-requests
+     #   opentelemetry-instrumentation-wsgi
+     #   opentelemetry-sdk
+-opentelemetry-util-http==0.58b0
++opentelemetry-util-http==0.59b0
+     # via
+     #   -r base.in
+     #   opentelemetry-instrumentation-aiohttp-client
 @@ -467,7 +467,7 @@
      #   langchain-core
      #   langsmith
