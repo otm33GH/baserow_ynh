@@ -28,7 +28,11 @@ ynh_config_change_url_nginx
 # UPDATE URL IN ENV FILES
 #=================================================
 domain=$new_domain
-path=$new_path
+if [ -z "$new_path" ]; then
+    path=""
+else
+    path="/$new_path"
+fi
 
 ynh_replace --match='BASEROW_PUBLIC_URL=[^"]*' --replace="BASEROW_PUBLIC_URL=https://${domain}${path}" --file="$install_dir/$app/$app/.env"
 ynh_replace --match='BASEROW_EXTRA_ALLOWED_HOSTS=[^"]*' --replace="BASEROW_EXTRA_ALLOWED_HOSTS=${domain}${path}" --file="$install_dir/$app/$app/.env"
