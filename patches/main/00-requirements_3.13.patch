@@ -23,7 +23,7 @@
      #   django-celery-email
      #   flower
 -celery-redbeat==2.2.0
-+celery-redbeat==2.2.3
++celery-redbeat==2.3.3
      # via -r base.in
  celery-singleton==0.3.1
      # via -r base.in
