@@ -9,6 +9,24 @@
  advocate==1.0.0
      # via -r base.in
  amqp==5.3.1
+@@ -64,7 +64,7 @@
+     # via -r base.in
+ cachetools==5.5.0
+     # via google-auth
+-celery[redis]==5.4.0
++celery[redis]==5.5.3
+     # via
+     #   -r base.in
+     #   celery-redbeat
+@@ -72,7 +72,7 @@
+     #   django-celery-beat
+     #   django-celery-email
+     #   flower
+-celery-redbeat==2.2.0
++celery-redbeat==2.2.3
+     # via -r base.in
+ celery-singleton==0.3.1
+     # via -r base.in
 @@ -347,7 +347,7 @@
      #   langchain-openai
  openpyxl==3.1.5
