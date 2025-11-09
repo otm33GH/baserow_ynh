@@ -27,6 +27,15 @@
      # via -r base.in
  celery-singleton==0.3.1
      # via -r base.in
+@@ -284,7 +284,7 @@
+     # via drf-spectacular
+ jsonschema-specifications==2025.4.1
+     # via jsonschema
+-kombu==5.4.2
++kombu==5.6.0
+     # via celery
+ langchain==0.3.27
+     # via -r base.in
 @@ -347,7 +347,7 @@
      #   langchain-openai
  openpyxl==3.1.5
