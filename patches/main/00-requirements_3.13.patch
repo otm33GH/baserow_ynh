@@ -153,7 +153,15 @@
      # via
      #   -r base.in
      #   anthropic
-
+@@ -689,7 +689,7 @@
+     #   typing-inspect
+ typing-inspect==0.9.0
+     # via mistralai
+-tzdata==2024.1
++tzdata>=2025.2
+     # via
+     #   -r base.in
+     #   celery
 
 --- baserow/backend/src/baserow/core/utils.py  2025-10-08 15:46:27.000000000 +0200
 +++ baserow/backend/src/baserow/core/utils.py  2025-11-06 21:56:24.372597635 +0100
