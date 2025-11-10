@@ -70,8 +70,10 @@ fi
   set +a
 ynh_script_progression "Migrating $app's database... Have a break of 30 minutes !"
   baserow migrate >/dev/null
+if [ $full_version == 1 ]; then
 ynh_script_progression "Syncing..."
   ynh_hide_warnings baserow sync_templates
+else 
   deactivate
 popd
 
