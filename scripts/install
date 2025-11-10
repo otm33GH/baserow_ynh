@@ -56,7 +56,7 @@ pushd "$install_dir/$app"
   python3 -m venv venv
   source venv/bin/activate
 
-if [ $full_version == "true" ]; then
+if [ $full_version == 1 ]; then
   ynh_hide_warnings pip install -e ./backend
   ynh_hide_warnings pip install -e ./premium/backend
   ynh_hide_warnings pip install -e ./enterprise/backend
