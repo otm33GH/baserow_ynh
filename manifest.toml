@@ -44,7 +44,14 @@ ram.runtime = "1500M"
     [resources.system_user]
 
     [resources.install_dir]
-
+    
+    [install.full_version]
+    ask.en = "Do you want to install full version (premium & enterprise) ?"
+    ask.fr = "Voulez-vous installer la version complète (premium & enterprise) ?"
+    type = "boolean"
+    default = "true"
+    yes = "true"
+    no = "false"
     
     [resources.permissions]
     main.url = "/"
