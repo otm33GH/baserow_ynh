@@ -52,11 +52,17 @@ ynh_config_add --template="frontend.env" --destination="$install_dir/$app/web-fr
 ynh_script_progression "Building $app's backend..."
 
 pushd "$install_dir/$app"
+
   python3 -m venv venv
   source venv/bin/activate
+
+if [ $full_version == "true" ]; then
   ynh_hide_warnings pip install -e ./backend
   ynh_hide_warnings pip install -e ./premium/backend
   ynh_hide_warnings pip install -e ./enterprise/backend
+else 
+  ynh_hide_warnings pip install -e ./backend
+fi
   ynh_hide_warnings pip install -r backend/requirements/base.txt
   set -a  
   source .env
@@ -103,6 +109,7 @@ ynh_app_setting_set --app=$app --key=email_smtp --value=false
 ynh_app_setting_set --app=$app --key=email_smtp_use_ssl --value=false
 ynh_app_setting_set --app=$app --key=email_smtp_use_tls --value=false
 ynh_app_setting_set --app=$app --key=upload_max_size --value=$upload_max_size
+ynh_app_setting_set --app=$app --key=full_version --value=$full_version
 
 
 
