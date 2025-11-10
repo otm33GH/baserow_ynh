@@ -70,7 +70,7 @@ fi
   set +a
 if [ $full_version == 1 ]; then
   baserow migrate >/dev/null
-  ynh_script_progression "Migrating $app's database... Have a break of 30 minutes !"
+  ynh_script_progression "Migrating $app's database (Premium and Enterprise version)... Have a break of 30 minutes !"
   ynh_script_progression "Syncing..."
   ynh_hide_warnings baserow sync_templates
 else
