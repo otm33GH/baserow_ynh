@@ -73,7 +73,9 @@ ynh_script_progression "Migrating $app's database... Have a break of 30 minutes 
 if [ $full_version == 1 ]; then
 ynh_script_progression "Syncing..."
   ynh_hide_warnings baserow sync_templates
-else 
+else
+ynh_script_progression "Skipping template sync for OSS version."
+fi
   deactivate
 popd
 
