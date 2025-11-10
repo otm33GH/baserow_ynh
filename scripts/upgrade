@@ -53,9 +53,13 @@ ynh_script_progression "Building $app's backend..."
 pushd "$install_dir/$app"
   python3 -m venv venv
   source venv/bin/activate
-  ynh_hide_warnings pip3 install -e ./backend
-  ynh_hide_warnings pip3 install -e ./premium/backend
-  ynh_hide_warnings pip3 install -e ./enterprise/backend
+if [ $full_version == "true" ]; then
+  ynh_hide_warnings pip install -e ./backend
+  ynh_hide_warnings pip install -e ./premium/backend
+  ynh_hide_warnings pip install -e ./enterprise/backend
+else 
+  ynh_hide_warnings pip install -e ./backend
+fi
   ynh_hide_warnings pip install -r backend/requirements/base.txt
 set -a
 source .env
