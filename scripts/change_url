@@ -34,11 +34,11 @@ else
     path="/$new_path"
 fi
 
-ynh_replace --match='BASEROW_PUBLIC_URL=[^"]*' --replace="BASEROW_PUBLIC_URL=https://${domain}${path}" --file="$install_dir/$app/$app/.env"
-ynh_replace --match='BASEROW_EXTRA_ALLOWED_HOSTS=[^"]*' --replace="BASEROW_EXTRA_ALLOWED_HOSTS=${domain}${path}" --file="$install_dir/$app/$app/.env"
-ynh_replace --match='MEDIA_URL=[^"]*' --replace="MEDIA_URL=https://${domain}${path}/media" --file="$install_dir/$app/$app/.env"
+ynh_replace --match='BASEROW_PUBLIC_URL=[^"]*' --replace="BASEROW_PUBLIC_URL=https://${domain}${path}" --file="$install_dir/$app/.env"
+ynh_replace --match='BASEROW_EXTRA_ALLOWED_HOSTS=[^"]*' --replace="BASEROW_EXTRA_ALLOWED_HOSTS=${domain}${path}" --file="$install_dir/$app/.env"
+ynh_replace --match='MEDIA_URL=[^"]*' --replace="MEDIA_URL=https://${domain}${path}/media" --file="$install_dir/$app/.env"
 
-ynh_replace --match='BASEROW_PUBLIC_URL=[^"]*' --replace="BASEROW_PUBLIC_URL=https://${domain}${path}" --file="$install_dir/$app/$app/web-frontend/.env"
+ynh_replace --match='BASEROW_PUBLIC_URL=[^"]*' --replace="BASEROW_PUBLIC_URL=https://${domain}${path}" --file="$install_dir/$app/web-frontend/.env"
 
 
 #=================================================
