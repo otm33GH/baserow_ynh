@@ -1,1 +1,3 @@
-⚠️ L'installation de Baserow peut être très longue (> 30') en raison de la création des tables dans la base de données... 
+⚠️ **Durée de l'installation et ressources**
+* L'installation de Baserow est longue (>=20'). 
+* L'installation est également exigeante en ressources CPU et RAM.  

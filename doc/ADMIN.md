@@ -1,3 +1,6 @@
+### User guide
+[Official documentation](https://baserow.io/user-docs/database-api)
+
 ### Admin user
 
 Go to [**DOMAIN**](__DOMAIN__) to create the first user.
@@ -10,7 +13,6 @@ The settings panel allows you to edit the following parameters:
 * SMTP relay for sending emails
 * File import size limit
 * AWS storage
-* AI models
 
 ### Application generation
 

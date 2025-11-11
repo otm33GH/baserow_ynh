@@ -1,3 +1,6 @@
+### Guide d'utilisation
+[Documentation officielle](https://baserow.io/user-docs/database-api)
+
 ### Utilisateur administrateur
 
 Rendez-vous sur la page [__DOMAIN__](__DOMAIN__) pour créer le premier utilisateur.  
@@ -8,7 +11,6 @@ Le panneau de configuration permet d'éditer les paramètres suivants :
 * Relais SMTP pour l'envoi de courriel
 * Limite de la taille d'import des fichiers
 * Stockage AWS
-* Modèles AI
 
 ### Génération d'applications
 Les applications créées avec Baserow peuvent être déployées sur des sous-domaines de [__DOMAIN__](__DOMAIN__).
