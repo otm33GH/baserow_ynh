@@ -56,7 +56,7 @@ pushd "$install_dir/$app"
   source venv/bin/activate
 if [ $full_version == 1 ]; then
   #export DJANGO_SETTINGS_MODULE=baserow.settings_enterprise
-  ynh_replace --match='BASEROW_OSS_ONLY=true[^"]*' --replace="#BASEROW_OSS_ONLY=true" --file="{$install_dir}/${app}/.env"
+  ynh_replace --match='BASEROW_OSS_ONLY=true[^"]*' --replace="#BASEROW_OSS_ONLY=true" --file="${install_dir}/${app}/.env"
   set -a
   source .env
   set +a
@@ -68,7 +68,7 @@ else
   set -a
   source .env
   set +a
-  ynh_replace --match='#BASEROW_OSS_ONLY=true[^"]*' --replace="BASEROW_OSS_ONLY=true" --file="{$install_dir}/${app}/.env"
+  ynh_replace --match='#BASEROW_OSS_ONLY=true[^"]*' --replace="BASEROW_OSS_ONLY=true" --file="${install_dir}/${app}/.env"
   ynh_hide_warnings pip install -e ./backend
 fi
   ynh_hide_warnings pip install -r backend/requirements/base.txt
