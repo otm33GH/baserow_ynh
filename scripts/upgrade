@@ -57,7 +57,6 @@ pushd "$install_dir/$app"
 if [ $full_version == 1 ]; then
   #export DJANGO_SETTINGS_MODULE=baserow.settings_enterprise
   ynh_replace --match='BASEROW_OSS_ONLY=true[^"]*' --replace="#BASEROW_OSS_ONLY=true" --file="{$install_dir}/${app}/.env"
-  baserow migrate
   set -a
   source .env
   set +a
@@ -66,7 +65,6 @@ if [ $full_version == 1 ]; then
   ynh_hide_warnings pip install -e ./enterprise/backend
 else 
   #export BASEROW_OSS_ONLY=true
-  baserow migrate
   set -a
   source .env
   set +a
