@@ -11,6 +11,10 @@ get__email_smtp(){
 ynh_app_setting_get --key=email_smtp
 }
 
+get__email_smtp_port(){
+ynh_app_setting_get --key=email_smtp_port
+}
+
 get__email_smtp_use_ssl(){
 ynh_app_setting_get --key=email_smtp_use_ssl
 }
