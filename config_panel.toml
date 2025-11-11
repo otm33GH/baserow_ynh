@@ -26,6 +26,7 @@ help.fr = "Les fonctionnalités des versions premium et enterprise sont accessib
                 bind = "null"
 			    yes = "true"
                 no = "false"
+				default = "false"
 
                 [main.smtp.from_email]
                 ask.en = "The email address Baserow will send emails from."
@@ -56,6 +57,7 @@ help.fr = "Les fonctionnalités des versions premium et enterprise sont accessib
                 ask.en = "SMTP port"
                 ask.fr = "Port du serveur SMTP"
                 type = "number"
+				optional = true
                 bind = "EMAIL_SMTP_PORT:__INSTALL_DIR__/__APP__/.env"
 
 				
