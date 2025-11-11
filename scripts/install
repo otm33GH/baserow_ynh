@@ -17,6 +17,7 @@ ynh_script_progression "Generating $app's secrets..."
 secret_key=$(ynh_string_random --length=24)
 jwt_secret=$(ynh_string_random --length=24)
 upload_max_size=100
+email_smtp_port=465
 
 #=================================================
 # CREATE A PostgreSQL DATABASE
@@ -112,6 +113,7 @@ ynh_config_add_nginx
 ynh_app_setting_set --app=$app --key=secret_key --value=$secret_key
 ynh_app_setting_set --app=$app --key=jwt_secret --value=$jwt_secret
 ynh_app_setting_set --app=$app --key=email_smtp --value=false
+ynh_app_setting_set --app=$app --key=email_smtp_port --value=$email_smtp_port
 ynh_app_setting_set --app=$app --key=email_smtp_use_ssl --value=false
 ynh_app_setting_set --app=$app --key=email_smtp_use_tls --value=false
 ynh_app_setting_set --app=$app --key=upload_max_size --value=$upload_max_size
