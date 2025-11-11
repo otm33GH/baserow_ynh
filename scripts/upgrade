@@ -57,6 +57,7 @@ pushd "$install_dir/$app"
   source .env
   set +a
   ynh_hide_warnings pip install -e ./backend
+  ynh_hide_warnings pip install -r backend/requirements/base.txt
   baserow migrate >/dev/null
   deactivate
 popd
