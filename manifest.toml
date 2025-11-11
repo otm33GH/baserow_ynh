@@ -45,13 +45,13 @@ ram.runtime = "1500M"
 
     [resources.install_dir]
     
-    [install.full_version]
-    ask.en = "Do you want to install full version (premium & enterprise) ?"
-    ask.fr = "Voulez-vous installer la version complète (premium & enterprise) ?"
-    help.en = "Premium and enterprise versions features are inly accessible through paid plans. Note: the install and upgrade will be slower. After changing this setting you should trigger a force upgrade of this app by yourself to be effective." 
-    help.fr = "Les fonctionnalités des versions premium et enterprise sont accessibles via un abonnement payant. NB: l'installation et la mise à jour seront plus lentes. Après avoir modifié ce paramètre, vous devez déclencher vous-même une mise à jour forcée de l'app pour que le changement soit éffectif." 
-    type = "boolean"
-    default = 0
+#    [install.full_version]
+#    ask.en = "Do you want to install full version (premium & enterprise) ?"
+#    ask.fr = "Voulez-vous installer la version complète (premium & enterprise) ?"
+#    help.en = "Premium and enterprise versions features are inly accessible through paid plans. Note: the install and upgrade will be slower. After changing this setting you should trigger a force upgrade of this app by yourself to be effective." 
+#    help.fr = "Les fonctionnalités des versions premium et enterprise sont accessibles via un abonnement payant. NB: l'installation et la mise à jour seront plus lentes. Après avoir modifié ce paramètre, vous devez déclencher vous-même une mise à jour forcée de l'app pour que le changement soit éffectif." 
+#    type = "boolean"
+#    default = 0
     
     [resources.permissions]
     main.url = "/"
