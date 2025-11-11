@@ -30,7 +30,16 @@ ynh_script_progression "Upgrading source files..."
 
 # Download, check integrity, uncompress and patch the source from manifest.toml
 
+if [ -d "$install_dir/$app/venv" ]; then
+    mv "$install_dir/$app/venv" "/tmp/${app}_backup_venv"
+fi
+
 ynh_setup_source --dest_dir="$install_dir/$app" --full_replace=1
+
+
+if [ -d "/tmp/${app}_backup_venv" ]; then
+    mv "/tmp/${app}_backup_venv" "$install_dir/$app/venv"
+fi
 
 
 #=================================================
@@ -51,13 +60,17 @@ ynh_config_add --template="frontend.env" --destination="$install_dir/$app/web-fr
 ynh_script_progression "Building $app's backend..."
 
 pushd "$install_dir/$app"
-  python3 -m venv venv
+  # python3 -m venv venv
+  if [ ! -d "venv" ]; then
+      python3 -m venv venv
+  fi
+
   source venv/bin/activate
   set -a  
   source .env
   set +a
   ynh_hide_warnings pip install -e ./backend
-  ynh_hide_warnings pip install -r backend/requirements/base.txt
+  ynh_hide_warnings pip install  --upgrade --no-cache-dir -r backend/requirements/base.txt
   baserow migrate >/dev/null
   deactivate
 popd
