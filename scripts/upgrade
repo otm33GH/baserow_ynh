@@ -30,7 +30,8 @@ ynh_script_progression "Upgrading source files..."
 
 # Download, check integrity, uncompress and patch the source from manifest.toml
 
-ynh_setup_source --dest_dir="$install_dir/$app" --full_replace=1
+ynh_setup_source --dest_dir="$install_dir/$app" 
+# --full_replace=1
 
 
 #=================================================
@@ -53,6 +54,7 @@ ynh_script_progression "Building $app's backend..."
 pushd "$install_dir/$app"
   python3 -m venv venv
   source venv/bin/activate
+  baserow migrate >/dev/null
 if [ $full_version == 1 ]; then
   ynh_hide_warnings pip install -e ./backend
   ynh_hide_warnings pip install -e ./premium/backend
