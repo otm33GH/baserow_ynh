@@ -73,9 +73,9 @@ pushd "$install_dir/$app"
   ynh_hide_warnings pip install -e ./premium/backend
   ynh_hide_warnings pip install -e ./enterprise/backend
   ynh_hide_warnings pip install  --upgrade --no-cache-dir -r backend/requirements/base.txt
-ynh_script_progression "Migrating $app's database (Premium and Enterprise version)... Have a break of 30 minutes !"
+ynh_script_progression "Migrating $app's database (Premium and Enterprise version)... "
   baserow migrate >/dev/null
-ynh_script_progression "Syncing..."
+ynh_script_progression "Syncing... Have a break of 30 minutes !"
   ynh_hide_warnings baserow sync_templates  
   deactivate
 popd
