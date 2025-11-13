@@ -20,12 +20,12 @@ yunohost = ">= 12.1.6"
 architectures = "all"
 helpers_version = "2.1"
 multi_instance = false
-ldap = true
+ldap = false
 sso = false
 
 disk = "2000M"
-ram.build = "1500M"
-ram.runtime = "1500M"
+ram.build = "2000M"
+ram.runtime = "2500M"
 
 [install]
     [install.domain]
