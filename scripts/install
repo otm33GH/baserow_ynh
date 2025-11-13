@@ -62,7 +62,6 @@ pushd "$install_dir/$app"
   ynh_hide_warnings pip install -e ./backend
   ynh_hide_warnings pip install -r backend/requirements/base.txt
   baserow migrate >/dev/null
-  ynh_hide_warnings baserow sync_templates
   deactivate
 popd
 
