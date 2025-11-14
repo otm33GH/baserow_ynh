@@ -3,7 +3,7 @@
 
 ### Admin user
 
-Go to [**DOMAIN**](__DOMAIN__) to create the first user.
+Go to [**DOMAIN**](https://__DOMAIN__) to create the first user.
 ❗The **first** user created will have administrator rights; the following ones will be regular users.
 
 ### Configuration
@@ -16,7 +16,7 @@ The settings panel allows you to edit the following parameters:
 
 ### Application generation
 
-Applications created with Baserow can be deployed on subdomains of [**DOMAIN**](__DOMAIN__).
+Applications created with Baserow can be deployed on subdomains of [**DOMAIN**](https://__DOMAIN__).
 By default, these subdomains will not be covered by a certificate recognized by browsers.
 To make them accessible via HTTPS, follow these steps:
 
