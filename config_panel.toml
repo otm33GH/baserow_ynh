@@ -19,15 +19,6 @@ services = ["__APP__-backend"]
 name.en = "SMTP configuration"
 name.fr = "Paramètres SMTP"
 
-[main.stmp.email_smtp]
-ask.en = "Activation"
-ask.fr = "Activation"
-type = "boolean"
-bind = "null"
-yes = "true"
-no = "false"
-default = "false"
-
 [main.smtp.from_email]
 ask.en = "The email address Baserow will send emails from."
 ask.fr = "Adresse d'envoi des messages"

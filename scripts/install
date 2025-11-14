@@ -19,7 +19,7 @@ jwt_secret=$(ynh_string_random --length=24)
 upload_max_size=100
 
 email_smtp_host=$(cat /etc/yunohost/current_host)
-email_smtp_port=465
+email_smtp_port=587
 email_smtp_use_ssl=false
 email_smtp_use_tls=true
 email_smtp_user="$app"
