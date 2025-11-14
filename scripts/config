@@ -7,42 +7,26 @@ get__upload_max_size() {
 ynh_app_setting_get --key=upload_max_size
 }
 
-get__email_smtp(){
-ynh_app_setting_get --key=email_smtp
+get__email_smtp_use_ssl() {
+    ynh_app_setting_get --key=email_smtp_use_ssl
 }
-
-get__email_smtp_port(){
-ynh_app_setting_get --key=email_smtp_port
-}
-
-get__email_smtp_use_ssl(){
-ynh_app_setting_get --key=email_smtp_use_ssl
-}
-
-get__email_smtp_use_tls(){
-ynh_app_setting_get --key=email_smtp_use_tls
-}
-
-set__email_smtp() {
-    case "$email_smtp" in
-        true|1|yes|True|YES)
-        ynh_replace --match='#EMAIL_SMTP=[^"]*' --replace="EMAIL_SMTP=$email_smtp" --file="$BACKEND_ENV"
-            ;;
-        false|0|no|False|NO)
-        ynh_replace --match='EMAIL_SMTP=[^"]*' --replace="#EMAIL_SMTP=$email_smtp" --file="$BACKEND_ENV"
-            ;;
-    esac
-    ynh_app_setting_set --key=email_smtp --value="$email_smtp"
-    ynh_store_file_checksum "$BACKEND_ENV"
+get__email_smtp_use_tls() {
+    ynh_app_setting_get --key=email_smtp_use_tls
 }
 
 set__email_smtp_use_ssl() {
     case "$email_smtp_use_ssl" in
         true|1|yes|True|YES)
-        ynh_replace --match='#EMAIL_SMTP_USE_SSL=[^"]*' --replace="EMAIL_SMTP_USE_SSL=$email_smtp_use_ssl" --file="$BACKEND_ENV"
+            ynh_replace \
+                --match='^#*EMAIL_SMTP_USE_SSL=.*' \
+                --replace="EMAIL_SMTP_USE_SSL=$email_smtp_use_ssl" \
+                --file="$BACKEND_ENV"
             ;;
         false|0|no|False|NO)
-        ynh_replace --match='EMAIL_SMTP_USE_SSL=[^"]*' --replace="#EMAIL_SMTP_USE_SSL=$email_smtp_use_ssl" --file="$BACKEND_ENV"
+            ynh_replace \
+                --match='^#*EMAIL_SMTP_USE_SSL=.*' \
+                --replace="#EMAIL_SMTP_USE_SSL=$email_smtp_use_ssl" \
+                --file="$BACKEND_ENV"
             ;;
     esac
     ynh_app_setting_set --key=email_smtp_use_ssl --value="$email_smtp_use_ssl"
@@ -52,10 +36,16 @@ set__email_smtp_use_ssl() {
 set__email_smtp_use_tls() {
     case "$email_smtp_use_tls" in
         true|1|yes|True|YES)
-        ynh_replace --match='#EMAIL_SMTP_USE_TLS=[^"]*' --replace="EMAIL_SMTP_USE_TLS=$email_smtp_use_tls" --file="$BACKEND_ENV"
+            ynh_replace \
+                --match='^#*EMAIL_SMTP_USE_TLS=.*' \
+                --replace="EMAIL_SMTP_USE_TLS=$email_smtp_use_tls" \
+                --file="$BACKEND_ENV"
             ;;   
         false|0|no|False|NO)
-        ynh_replace --match='EMAIL_SMTP_USE_TLS=[^"]*' --replace="#EMAIL_SMTP_USE_TLS=$email_smtp_use_tls" --file="$BACKEND_ENV"
+            ynh_replace \
+                --match='^#*EMAIL_SMTP_USE_TLS=.*' \
+                --replace="#EMAIL_SMTP_USE_TLS=$email_smtp_use_tls" \
+                --file="$BACKEND_ENV"
             ;;
     esac
     ynh_app_setting_set --key=email_smtp_use_tls --value="$email_smtp_use_tls"
