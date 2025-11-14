@@ -88,6 +88,7 @@ pushd "$install_dir/$app"
   else
   ynh_script_progression "Migrating $app's database (Base version)... "
   baserow migrate >/dev/null
+  ynh_hide_warnings baserow sync_templates
   fi
   deactivate
 popd
