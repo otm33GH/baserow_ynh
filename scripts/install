@@ -17,7 +17,14 @@ ynh_script_progression "Generating $app's secrets..."
 secret_key=$(ynh_string_random --length=24)
 jwt_secret=$(ynh_string_random --length=24)
 upload_max_size=100
+
+email_smtp_host=$(cat /etc/yunohost/current_host)
 email_smtp_port=465
+email_smtp_use_ssl=false
+email_smtp_use_tls=true
+email_smtp_user="$app"
+email_smtp_password="$mail_pwd"
+from_email="$app@$domain"
 
 #=================================================
 # CREATE A PostgreSQL DATABASE
@@ -56,17 +63,32 @@ pushd "$install_dir/$app"
 
   python3 -m venv venv
   source venv/bin/activate
-  set -a  
-  source .env
-  set +a
-  ynh_hide_warnings pip install -e ./backend
-  ynh_hide_warnings pip install -e ./premium/backend
-  ynh_hide_warnings pip install -e ./enterprise/backend
+    set -a  
+    source .env
+    set +a
+  if [ $full_version == 1 ]; then  
+    ynh_script_progression "Installing Premium and Enterprise dependencies..."
+    ynh_hide_warnings pip install -e ./backend
+    ynh_hide_warnings pip install -e ./premium/backend
+    ynh_hide_warnings pip install -e ./enterprise/backend
+  else
+    ynh_script_progression "Installing Base dependencies..."
+    export BASEROW_OSS_ONLY=true
+    ynh_replace --match='#BASEROW_OSS_ONLY=true[^"]*' --replace="BASEROW_OSS_ONLY=true" --file="${install_dir}/${app}/.env"
+    ynh_hide_warnings pip install -e ./backend
+  fi
+  
   ynh_hide_warnings pip install -r backend/requirements/base.txt
-ynh_script_progression "Migrating $app's database (Premium and Enterprise version)... "
+  
+  if [ $full_version == 1 ]; then
+  ynh_script_progression "Migrating $app's database (Premium and Enterprise version)... "
   baserow migrate >/dev/null
-ynh_script_progression "Syncing... Have a break of 30 minutes !"
+  ynh_script_progression "Syncing... Have a break of 30 minutes !"
   ynh_hide_warnings baserow sync_templates
+  else
+  ynh_script_progression "Migrating $app's database (Base version)... "
+  baserow migrate >/dev/null
+  fi
   deactivate
 popd
 
@@ -101,10 +123,14 @@ ynh_config_add_nginx
 
 ynh_app_setting_set --app=$app --key=secret_key --value=$secret_key
 ynh_app_setting_set --app=$app --key=jwt_secret --value=$jwt_secret
-ynh_app_setting_set --app=$app --key=email_smtp --value=false
+#ynh_app_setting_set --app=$app --key=email_smtp --value=false
 ynh_app_setting_set --app=$app --key=email_smtp_port --value=$email_smtp_port
-ynh_app_setting_set --app=$app --key=email_smtp_use_ssl --value=false
-ynh_app_setting_set --app=$app --key=email_smtp_use_tls --value=false
+ynh_app_setting_set --app=$app --key=email_smtp_use_ssl --value=$email_smtp_use_ssl
+ynh_app_setting_set --app=$app --key=email_smtp_use_tls --value=$email_smtp_use_tls
+ynh_app_setting_set --app=$app --key=email_smtp_user --value=$email_smtp_user
+ynh_app_setting_set --app=$app --key=email_smtp_password --value=$email_smtp_password
+ynh_app_setting_set --app=$app --key=from_email --value=$from_email
+
 ynh_app_setting_set --app=$app --key=upload_max_size --value=$upload_max_size
 
 

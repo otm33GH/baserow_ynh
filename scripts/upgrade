@@ -45,11 +45,20 @@ fi
 #=================================================
 # CONFIG FILES
 #=================================================
-ynh_script_progression "Updating $app's configuration files..."
+ynh_script_progression "Retrieving $app's configuration..."
 
 jwt_secret=$(ynh_app_setting_get --app=$app --key=jwt_secret)
 secret_key=$(ynh_app_setting_get --app=$app --key=secret_key)
 full_version=$(ynh_app_setting_get --app=$app --key=full_version)
+upload_max_size=$(ynh_app_setting_get --app=$app --key=upload_max_size)
+email_smtp_host=$(ynh_app_setting_get --app=$app --key=email_smtp_host)
+email_smtp_port=$(ynh_app_setting_get --app=$app --key=email_smtp_port)
+email_smtp_use_ssl=$(ynh_app_setting_get --app=$app --key=email_smtp_use_ssl)
+email_smtp_use_tls=$(ynh_app_setting_get --app=$app --key=email_smtp_use_tls)
+email_smtp_user=$(ynh_app_setting_get --app=$app --key=email_smtp_user)
+email_smtp_password=$(ynh_app_setting_get --app=$app --key=email_smtp_password)
+from_email=$(ynh_app_setting_get --app=$app --key=from_email)
+
 
 ynh_config_add --template="backend.env" --destination="$install_dir/$app/.env"
 ynh_config_add --template="frontend.env" --destination="$install_dir/$app/web-frontend/.env"
@@ -66,17 +75,29 @@ pushd "$install_dir/$app"
   fi
 
   source venv/bin/activate
-  set -a  
-  source .env
-  set +a
-  ynh_hide_warnings pip install -e ./backend
-  ynh_hide_warnings pip install -e ./premium/backend
-  ynh_hide_warnings pip install -e ./enterprise/backend
-  ynh_hide_warnings pip install  --upgrade --no-cache-dir -r backend/requirements/base.txt
-ynh_script_progression "Migrating $app's database (Premium and Enterprise version)... "
+    set -a  
+    source .env
+    set +a
+  if [ $full_version == 1 ]; then  
+    ynh_script_progression "Installing Premium and Enterprise version dependencies..."
+    ynh_hide_warnings pip install -e ./premium/backend
+    ynh_hide_warnings pip install -e ./enterprise/backend
+    ynh_hide_warnings pip install -e ./backend
+  else
+    ynh_script_progression "Installing Community version dependencies..."
+    ynh_hide_warnings pip install -e ./backend
+  fi
+   ynh_hide_warnings pip install  --upgrade --no-cache-dir -r backend/requirements/base.txt
+
+  if [ $full_version == 1 ]; then
+  ynh_script_progression "Migrating $app's database (Premium and Enterprise version)... "
   baserow migrate >/dev/null
-ynh_script_progression "Syncing... Have a break of 30 minutes !"
+  ynh_script_progression "Syncing... Have a break of 30 minutes !"
   ynh_hide_warnings baserow sync_templates  
+  else
+  ynh_script_progression "Migrating $app's database (Community version)... "
+  baserow migrate >/dev/null
+  fi
   deactivate
 popd
 
