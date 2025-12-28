@@ -1,0 +1,67 @@
+packaging_format = 2
+
+id = "baserow"
+name = "Baserow"
+description.en = "No-code open source database & application builder"
+description.fr = "Application open source de création d’applications et de bases de données sans code"
+
+version = "2.0.1~ynh1"
+
+maintainers = ["otm33GH"]
+
+[upstream]
+license = "MIT"
+website = "https://baserow.io/"
+admindoc = "https://baserow.io/docs/index"
+code = "https://github.com/baserow/baserow"
+
+[integration]
+yunohost = ">= 12.1.6"
+architectures = "all"
+helpers_version = "2.1"
+multi_instance = false
+ldap = false
+sso = false
+
+disk = "2000M"
+ram.build = "2000M"
+ram.runtime = "2000M"
+
+[install]
+    [install.domain]
+    type = "domain"
+
+    [install.init_main_permission]
+    type = "group"
+    default = "visitors"
+ 
+[resources]    
+    [resources.sources.main]
+    url = "https://github.com/baserow/baserow/archive/refs/tags/2.0.1.tar.gz" 
+    sha256 = "303f4e429f8885bbb91b96631441e3ce46d7841da290c8c2299248ccd394c14a"
+    autoupdate.strategy = "latest_github_tag"
+
+    [resources.system_user]
+	allow_email = true
+
+    [resources.install_dir]   
+   
+    [resources.permissions]
+    main.url = "/"
+
+    [resources.ports.backend]
+
+    [resources.ports.frontend]
+    [resources.apt]
+    packages = "postgresql redis-server python3-venv python3-pip libpq-dev"
+
+    [resources.data_dir]
+    subdirs = ["media"]
+    group = "www-data:rx"
+
+    [resources.database]
+    type = "postgresql"
+
+    [resources.nodejs]
+    version = "24"
+    

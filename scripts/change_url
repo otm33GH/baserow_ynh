@@ -1,0 +1,58 @@
+#!/bin/bash
+
+#=================================================
+# IMPORT GENERIC HELPERS
+#=================================================
+
+source /usr/share/yunohost/helpers
+
+#=================================================
+# STOP SYSTEMD SERVICE
+#=================================================
+  ynh_script_progression "Stopping $app's systemd service..."
+
+ynh_systemctl --service="$app-backend" --action="stop" --log_path="systemd"
+ynh_systemctl --service="$app-frontend" --action="stop" --log_path="systemd"
+ynh_systemctl --service="$app-celery" --action="stop" --log_path="systemd"
+ynh_systemctl --service="$app-celery-export" --action="stop" --log_path="systemd"
+
+#=================================================
+# MODIFY URL IN NGINX CONF
+#=================================================
+ynh_script_progression "Updating NGINX web server configuration..."
+
+ynh_config_change_url_nginx
+
+
+#=================================================
+# UPDATE URL IN ENV FILES
+#=================================================
+domain=$new_domain
+if [ -z "$new_path" ]; then
+    path=""
+else
+    path="/$new_path"
+fi
+
+ynh_replace --match='BASEROW_PUBLIC_URL=[^"]*' --replace="BASEROW_PUBLIC_URL=https://${domain}${path}" --file="$install_dir/$app/.env"
+ynh_replace --match='BASEROW_EXTRA_ALLOWED_HOSTS=[^"]*' --replace="BASEROW_EXTRA_ALLOWED_HOSTS=${domain}${path}" --file="$install_dir/$app/.env"
+ynh_replace --match='MEDIA_URL=[^"]*' --replace="MEDIA_URL=https://${domain}${path}/media" --file="$install_dir/$app/.env"
+
+ynh_replace --match='BASEROW_PUBLIC_URL=[^"]*' --replace="BASEROW_PUBLIC_URL=https://${domain}${path}" --file="$install_dir/$app/web-frontend/.env"
+
+
+#=================================================
+# START SYSTEMD SERVICE
+#=================================================
+ynh_script_progression "Starting $app's systemd service..."
+
+ynh_systemctl --service="$app-backend" --action="start"
+ynh_systemctl --service="$app-frontend" --action="start"
+ynh_systemctl --service="$app-celery" --action="start"
+ynh_systemctl --service="$app-celery-export" --action="start"
+
+#=================================================
+# END OF SCRIPT
+#=================================================
+
+ynh_script_progression "Change of URL completed for $app"
