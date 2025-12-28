@@ -51,9 +51,9 @@ ynh_script_progression "Upgrading source files..."
 # Download, check integrity, uncompress and patch the source from manifest.toml
 
 # Had issues with this when upgrading to 2.0.1 : upgrade failed and complained about missing premium plugin even with OSE version !
-if [ -d "$install_dir/$app/venv" ]; then
-    mv "$install_dir/$app/venv" "/tmp/${app}_backup_venv"
-fi
+#if [ -d "$install_dir/$app/venv" ]; then
+#    mv "$install_dir/$app/venv" "/tmp/${app}_backup_venv"
+#fi
 
 mv "$install_dir/$app/.env" "/tmp/${app}.backup_env"
 mv "$install_dir/$app/web-frontend/.env" "/tmp/${app}.web-frontend.backup_env"
@@ -62,9 +62,9 @@ mv "$install_dir/$app/web-frontend/.env" "/tmp/${app}.web-frontend.backup_env"
 ynh_setup_source --dest_dir="$install_dir/$app" --full_replace=1 --keep=.env web-frontend/.env
 
 
-if [ -d "/tmp/${app}_backup_venv" ]; then
-    mv "/tmp/${app}_backup_venv" "$install_dir/$app/venv"
-fi
+#if [ -d "/tmp/${app}_backup_venv" ]; then
+#    mv "/tmp/${app}_backup_venv" "$install_dir/$app/venv"
+#fi
 
 mv "/tmp/${app}.backup_env" "$install_dir/$app/.env" 
 mv "/tmp/${app}.web-frontend.backup_env" "$install_dir/$app/web-frontend/.env"
