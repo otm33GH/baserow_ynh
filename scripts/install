@@ -74,7 +74,6 @@ pushd "$install_dir/$app"
   deactivate
 popd
 
-chown -R $app:$app "$install_dir"
 
 #=================================================
 # BUILDING FRONTEND
