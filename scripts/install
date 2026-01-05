@@ -83,6 +83,8 @@ pushd "$install_dir/$app/web-frontend"
 ynh_script_progression "Yarn install..."
 corepack enable
 corepack prepare  yarn@latest --activate
+
+chown -R $app:$app "$install_dir"
 yarn install
 ynh_script_progression "Build..."
 
