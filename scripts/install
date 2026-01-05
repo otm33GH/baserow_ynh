@@ -85,15 +85,18 @@ corepack enable
 corepack prepare  yarn@latest --activate
 
 chown -R $app:$app "$install_dir"
+chown -R $app:$app "$install_dir/$app"
 ynh_exec_as_app yarn install
 ynh_script_progression "Build..."
 
   CI=true ./node_modules/nuxt/bin/nuxt.js build --config-file config/nuxt.config.local.js --quiet
 
 ynh_script_progression "Npm install..."
+chown -R $app:$app "$install_dir"
 
   ynh_hide_warnings ynh_exec_as_app npm install --legacy-peer-deps
 ynh_script_progression "Npm run build..."
+chown -R $app:$app "$install_dir"
  
   ynh_hide_warnings ynh_exec_as_app npm run build
 popd
