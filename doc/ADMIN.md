@@ -21,4 +21,4 @@ By default, these subdomains will not be covered by a certificate recognized by 
 To make them accessible via HTTPS, follow these steps:
 
 * create the subdomain corresponding to the application in YunoHost and install a Let's Encrypt certificate on it
-* install the *Redirect* app in `reverse_proxy` mode and make it point to [http://127.0.0.1:__PORT_FRONTEND](http://127.0.0.1:__PORT_FRONTEND)__
+* install the *Redirect* app at the subdomain root in `reverse_proxy` mode and configure it to forward requests to [http://127.0.0.1:__PORT_FRONTEND](http://127.0.0.1:__PORT_FRONTEND)__
