@@ -1,4 +1,4 @@
-#!/bin/bash
+exit#!/bin/bash
 
 #=================================================
 # GENERIC START
@@ -116,14 +116,14 @@ popd
 # BUILDING FRONTEND
 #=================================================
 ynh_script_progression "Building $app's frontend..."
-
+chown -R $app:$app "$install_dir"
 pushd "$install_dir/$app/web-frontend"
 corepack enable
 corepack prepare  yarn@latest --activate
 #yarn install  --frozen-lockfile
-yarn install
+ynh_exec_as_app yarn install
 
-CI=true ./node_modules/nuxt/bin/nuxt.js build --config-file config/nuxt.config.local.js --quiet
+ynh_exec_as_app CI=true ./node_modules/nuxt/bin/nuxt.js build --config-file config/nuxt.config.local.js --quiet
 
 #  ynh_hide_warnings npm install --legacy-peer-deps
 #  ynh_hide_warnings npm run build
