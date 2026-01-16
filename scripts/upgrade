@@ -85,10 +85,6 @@ email_smtp_user=$(ynh_app_setting_get --app=$app --key=email_smtp_user)
 email_smtp_password=$(ynh_app_setting_get --app=$app --key=email_smtp_password)
 from_email=$(ynh_app_setting_get --app=$app --key=from_email)
 
-
-#ynh_config_add --template="backend.env" --destination="$install_dir/$app/.env"
-#ynh_config_add --template="frontend.env" --destination="$install_dir/$app/web-frontend/.env"
-
 #=================================================
 # BUILDING BACKEND
 #=================================================
@@ -120,13 +116,9 @@ chown -R $app:$app "$install_dir"
 pushd "$install_dir/$app/web-frontend"
 corepack enable
 corepack prepare  yarn@latest --activate
-#yarn install  --frozen-lockfile
-ynh_exec_as_app yarn install
-
+ynh_exec_as_app yarn install --frozen-lockfile --non-interactive
 ynh_exec_as_app CI=true ./node_modules/nuxt/bin/nuxt.js build --config-file config/nuxt.config.local.js --quiet
 
-#  ynh_hide_warnings npm install --legacy-peer-deps
-#  ynh_hide_warnings npm run build
 popd
 
 #=================================================
