@@ -120,7 +120,7 @@ ynh_script_progression "Building $app's frontend..."
 pushd "$install_dir/$app/web-frontend"
 corepack enable
 corepack prepare  yarn@latest --activate
-yarn install  
+yarn install  --frozen-lockfile
 CI=true ./node_modules/nuxt/bin/nuxt.js build --config-file config/nuxt.config.local.js --quiet
 #  ynh_hide_warnings npm install --legacy-peer-deps
 #  ynh_hide_warnings npm run build
