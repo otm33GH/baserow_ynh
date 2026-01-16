@@ -87,14 +87,14 @@ ynh_script_progression "Yarn install..."
   corepack prepare  yarn@latest --activate
   ynh_exec_as_app yarn install
 
-ynh_script_progression "Build..."
-  ynh_exec_as_app CI=true ./node_modules/nuxt/bin/nuxt.js build --config-file config/nuxt.config.local.js --quiet
+#ynh_script_progression "Build..."
+#  ynh_exec_as_app CI=true ./node_modules/nuxt/bin/nuxt.js build --config-file config/nuxt.config.local.js --quiet
 
-ynh_script_progression "Npm install..."
-  ynh_hide_warnings ynh_exec_as_app npm install --legacy-peer-deps
+#ynh_script_progression "Npm install..."
+#  ynh_hide_warnings ynh_exec_as_app npm install --legacy-peer-deps
 
-ynh_script_progression "Npm run build..."
-  ynh_hide_warnings ynh_exec_as_app npm run build
+#ynh_script_progression "Npm run build..."
+#  ynh_hide_warnings ynh_exec_as_app npm run build
   popd
 
 #=================================================
