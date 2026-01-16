@@ -121,7 +121,7 @@ pushd "$install_dir/$app/web-frontend"
 corepack enable
 corepack prepare  yarn@latest --activate
 #yarn install  --frozen-lockfile
-yarn install
+ynh_exec_as_app yarn install
 
 ynh_exec_as_app CI=true ./node_modules/nuxt/bin/nuxt.js build --config-file config/nuxt.config.local.js --quiet
 
