@@ -122,8 +122,8 @@ corepack enable
 corepack prepare  yarn@latest --activate
 yarn install  
 CI=true ./node_modules/nuxt/bin/nuxt.js build --config-file config/nuxt.config.local.js --quiet
-  ynh_hide_warnings npm install --legacy-peer-deps
-  ynh_hide_warnings npm run build
+#  ynh_hide_warnings npm install --legacy-peer-deps
+#  ynh_hide_warnings npm run build
 popd
 
 #=================================================
