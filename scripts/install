@@ -85,17 +85,13 @@ ynh_script_progression "Building $app's frontend..."
 ynh_script_progression "Yarn install..."
   corepack enable
   corepack prepare  yarn@latest --activate
-  ynh_exec_as_app yarn install
+  ynh_exec_as_app yarn install --frozen-lockfile --non-interactive
 
-#ynh_script_progression "Build..."
+ynh_script_progression "Build..."
+
 ynh_exec_as_app CI=true ./node_modules/nuxt/bin/nuxt.js build --config-file config/nuxt.config.local.js --quiet
 
-#ynh_script_progression "Npm install..."
-#  ynh_hide_warnings ynh_exec_as_app npm install --legacy-peer-deps
-
-#ynh_script_progression "Npm run build..."
-#  ynh_hide_warnings ynh_exec_as_app npm run build
-  popd
+popd
 
 #=================================================
 # SYSTEM CONFIGURATION
