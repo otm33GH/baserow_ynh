@@ -21,6 +21,26 @@ ynh_systemctl --service="$app-frontend" --action="stop" --log_path="systemd"
 ynh_systemctl --service="$app-celery" --action="stop" --log_path="systemd"
 ynh_systemctl --service="$app-celery-export" --action="stop" --log_path="systemd"
 
+if ynh_hide_warnings yunohost service status "$app-backend" >/dev/null; then
+    yunohost service remove "$app-backend"
+fi
+ynh_config_remove_systemd "$app-backend"
+
+if ynh_hide_warnings yunohost service status "$app-frontend" >/dev/null; then
+    yunohost service remove "$app-frontend"
+fi
+ynh_config_remove_systemd "$app-frontend"
+
+if ynh_hide_warnings yunohost service status "$app-celery" >/dev/null; then
+    yunohost service remove "$app-celery"
+fi
+ynh_config_remove_systemd "$app-celery"
+
+if ynh_hide_warnings yunohost service status "$app-celery-export" >/dev/null; then
+    yunohost service remove "$app-celery-export"
+fi
+ynh_config_remove_systemd "$app-celery-export"
+
 
 if ynh_hide_warnings yunohost service status "$app-backend" >/dev/null; then
     yunohost service remove "$app-backend"
@@ -48,13 +68,13 @@ ynh_config_remove_systemd "$app-celery-export"
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
 ynh_script_progression "Upgrading source files..."
-
+chown -R $app:$app "$install_dir"
 # Download, check integrity, uncompress and patch the source from manifest.toml
 
 # Had issues with this when upgrading to 2.0.1 : upgrade failed and complained about missing premium plugin even with OSE version !
-if [ -d "$install_dir/$app/venv" ]; then
-    mv "$install_dir/$app/venv" "/tmp/${app}_backup_venv"
-fi
+#if [ -d "$install_dir/$app/venv" ]; then
+#    mv "$install_dir/$app/venv" "/tmp/${app}_backup_venv"
+#fi
 
 mv "$install_dir/$app/.env" "/tmp/${app}.backup_env"
 mv "$install_dir/$app/web-frontend/.env" "/tmp/${app}.web-frontend.backup_env"
@@ -63,9 +83,9 @@ mv "$install_dir/$app/web-frontend/.env" "/tmp/${app}.web-frontend.backup_env"
 ynh_setup_source --dest_dir="$install_dir/$app" --full_replace=1 --keep=.env web-frontend/.env
 
 
-if [ -d "/tmp/${app}_backup_venv" ]; then
-    mv "/tmp/${app}_backup_venv" "$install_dir/$app/venv"
-fi
+#if [ -d "/tmp/${app}_backup_venv" ]; then
+#    mv "/tmp/${app}_backup_venv" "$install_dir/$app/venv"
+#fi
 
 mv "/tmp/${app}.backup_env" "$install_dir/$app/.env" 
 mv "/tmp/${app}.web-frontend.backup_env" "$install_dir/$app/web-frontend/.env"
@@ -85,10 +105,6 @@ email_smtp_use_tls=$(ynh_app_setting_get --app=$app --key=email_smtp_use_tls)
 email_smtp_user=$(ynh_app_setting_get --app=$app --key=email_smtp_user)
 email_smtp_password=$(ynh_app_setting_get --app=$app --key=email_smtp_password)
 from_email=$(ynh_app_setting_get --app=$app --key=from_email)
-
-
-#ynh_config_add --template="backend.env" --destination="$install_dir/$app/.env"
-#ynh_config_add --template="frontend.env" --destination="$install_dir/$app/web-frontend/.env"
 
 #=================================================
 # BUILDING BACKEND
@@ -117,14 +133,13 @@ popd
 # BUILDING FRONTEND
 #=================================================
 ynh_script_progression "Building $app's frontend..."
-
+chown -R $app:$app "$install_dir"
 pushd "$install_dir/$app/web-frontend"
 corepack enable
 corepack prepare  yarn@latest --activate
-yarn install  
-CI=true ./node_modules/nuxt/bin/nuxt.js build --config-file config/nuxt.config.local.js --quiet
-  ynh_hide_warnings npm install --legacy-peer-deps
-  ynh_hide_warnings npm run build
+ynh_exec_as_app yarn install --frozen-lockfile --non-interactive
+ynh_exec_as_app CI=true ./node_modules/nuxt/bin/nuxt.js build --config-file config/nuxt.config.local.js --quiet
+
 popd
 
 #=================================================

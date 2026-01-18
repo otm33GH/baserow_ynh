@@ -74,26 +74,23 @@ pushd "$install_dir/$app"
   deactivate
 popd
 
+
 #=================================================
 # BUILDING FRONTEND
 #=================================================
 ynh_script_progression "Building $app's frontend..."
+  chown -R $app:$app "$install_dir"
+  pushd "$install_dir/$app/web-frontend"
 
-pushd "$install_dir/$app/web-frontend"
 ynh_script_progression "Yarn install..."
-corepack enable
-corepack prepare  yarn@latest --activate
-yarn install
+  corepack enable
+  corepack prepare  yarn@latest --activate
+  ynh_exec_as_app yarn install --frozen-lockfile --non-interactive
+
 ynh_script_progression "Build..."
 
-  CI=true ./node_modules/nuxt/bin/nuxt.js build --config-file config/nuxt.config.local.js --quiet
+ynh_exec_as_app CI=true ./node_modules/nuxt/bin/nuxt.js build --config-file config/nuxt.config.local.js --quiet
 
-ynh_script_progression "Npm install..."
-
-  ynh_hide_warnings npm install --legacy-peer-deps
-ynh_script_progression "Npm run build..."
- 
-  ynh_hide_warnings npm run build
 popd
 
 #=================================================
@@ -112,9 +109,7 @@ ynh_app_setting_set --app=$app --key=email_smtp_use_tls --value=$email_smtp_use_
 ynh_app_setting_set --app=$app --key=email_smtp_user --value=$email_smtp_user
 ynh_app_setting_set --app=$app --key=email_smtp_password --value=$email_smtp_password
 ynh_app_setting_set --app=$app --key=from_email --value=$from_email
-
 ynh_app_setting_set --app=$app --key=upload_max_size --value=$upload_max_size
-
 
 
 ynh_config_add_systemd --service="$app-backend" --template="baserow-backend.service"
@@ -126,8 +121,10 @@ ynh_config_add_logrotate
 
 touch /var/log/$app/$app-backend.log
 touch /var/log/$app/$app-frontend.log
+touch /var/log/$app/$app-celery.log
+touch /var/log/$app/$app-celery-export.log
 
-# chown -R $app:www-data /var/log/$app/
+chown -R $app:www-data /var/log/$app/
 chown -R $app:www-data $data_dir
 
 yunohost service add "$app-backend" --description="Baserow No-Code Editor - backend" --log="/var/log/$app/$app-backend.log"
