@@ -11,7 +11,6 @@ Rendez-vous sur la page [__DOMAIN__](https://__DOMAIN__) pour créer le premier 
 Le panneau de configuration permet d'éditer les paramètres suivants :
 * Relais SMTP pour l'envoi de courriel
 * Limite de la taille d'import des fichiers
-* Stockage AWS
 
 ### Génération d'applications
 Les applications créées avec Baserow peuvent être déployées sur des sous-domaines de [__DOMAIN__](https://__DOMAIN__).
