@@ -82,14 +82,13 @@ ynh_script_progression "Building $app's frontend..."
   chown -R $app:$app "$install_dir"
   pushd "$install_dir/$app/web-frontend"
 
-ynh_script_progression "Yarn install..."
-  corepack enable
-  corepack prepare  yarn@latest --activate
-  ynh_exec_as_app yarn install --frozen-lockfile --non-interactive
+  ynh_hide_warnings ynh_exec_as_app corepack enable
+  ynh_hide_warnings ynh_exec_as_app corepack prepare  yarn@latest --activate
+  ynh_hide_warnings ynh_exec_as_app yarn install --frozen-lockfile --non-interactive
 
 ynh_script_progression "Build..."
 
-ynh_exec_as_app CI=true ./node_modules/nuxt/bin/nuxt.js build --config-file config/nuxt.config.local.js --quiet
+  ynh_hide_warnings ynh_exec_as_app ynh_exec_as_app CI=true ./node_modules/nuxt/bin/nuxt.js build --config-file config/nuxt.config.local.js --quiet
 
 popd
 
