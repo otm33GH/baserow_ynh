@@ -108,25 +108,22 @@ name.en = "S3 storage"
 name.fr = "Stockage S3"
 
 [main.storage.access_key_id]
-ask = "AWS_ACCESS_KEY_ID"
-name.en = "Bucket access key id"
-name.fr = "Bucket access key id"
+ask.en = "Bucket access key id"
+ask.fr = "Bucket access key id"
 help = "AWS_ACCESS_KEY_ID"
 type = "string"
 bind = "AWS_ACCESS_KEY_ID:__INSTALL_DIR__/__APP__/.env"
 
 [main.storage.secret_access_key]
-ask = "AWS_SECRET_ACCESS_KEY"
-name.en = "Bucket secret access key"
-name.fr = "Bucket secret access key"
+ask.en = "Bucket secret access key"
+ask.fr = "Bucket secret access key"
 help = "AWS_SECRET_ACCESS_KEY"
 type = "password"
 bind = "AWS_SECRET_ACCESS_KEY:__INSTALL_DIR__/__APP__/.env"
 
 [main.storage.AWS_STORAGE_BUCKET_NAME]
-ask = "AWS_STORAGE_BUCKET_NAME"
-name.en = "Bucket name"
-name.fr = "Nom du bucket"
+ask.en = "Bucket name"
+ask.fr = "Nom du bucket"
 help = "AWS_STORAGE_BUCKET_NAME"
 type = "string"
 bind = "AWS_STORAGE_BUCKET_NAME:__INSTALL_DIR__/__APP__/.env"
@@ -137,9 +134,8 @@ bind = "AWS_STORAGE_BUCKET_NAME:__INSTALL_DIR__/__APP__/.env"
 # bind = "AWS_S3_REGION_NAME:__INSTALL_DIR__/__APP__/.env"
 
 [main.storage.AWS_S3_ENDPOINT_URL]
-ask = "AWS_S3_ENDPOINT_URL"
-name.en = "URL endpoint"
-name.fr = "Url du point de terminaison"
+ask.en = "URL endpoint"
+ask.fr = "Url du point de terminaison"
 help = "AWS_S3_ENDPOINT_URL"
 type = "url"
 bind = "AWS_S3_ENDPOINT_URL:__INSTALL_DIR__/__APP__/.env"
