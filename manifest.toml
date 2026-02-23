@@ -63,6 +63,13 @@ ram.runtime = "2000M"
     [resources.database]
     type = "postgresql"
 
+	[resources.apt.extras.mise]
+	repo = "deb https://mise.jdx.dev/deb stable main"
+	key = "https://mise.jdx.dev/gpg-key.pub"
+	packages = [
+		"mise"
+	]
+	
     [resources.nodejs]
     version = "24"
     
