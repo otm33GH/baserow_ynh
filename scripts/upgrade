@@ -110,7 +110,9 @@ from_email=$(ynh_app_setting_get --app=$app --key=from_email)
 # BUILDING BACKEND
 #=================================================
 ynh_script_progression "Building $app's backend..."
-export HOME="$source_dir"
+
+tempo_dir="$install_dir/tempo"
+export HOME="$tempo_dir"
 pushd "$install_dir/$app/backend"
 # Install uv
 mise use uv@latest --quiet
@@ -143,7 +145,7 @@ ynh_script_progression "Migrating $app database..."
 "$install_dir/$app/venv/bin/baserow" migrate >/dev/null
 
 popd
-		ynh_safe_rm "$source_dir"
+		ynh_safe_rm "$tempo_dir"
 #=================================================
 # BUILDING FRONTEND
 #=================================================
