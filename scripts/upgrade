@@ -137,10 +137,6 @@ ynh_script_progression "Installing dependencies..."
   run_uv sync --frozen --active --quiet --no-cache
 )
 
-set -a
-source .env
-set +a
-
 ynh_script_progression "Migrating $app database..."
 "$install_dir/$app/venv/bin/baserow" migrate >/dev/null
 
