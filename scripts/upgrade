@@ -134,7 +134,7 @@ ynh_script_progression "Installing dependencies..."
 
 (
   source "$install_dir/$app/venv/bin/activate"
-  run_uv sync --frozen --active --quiet --no-cache --extra cpu
+  run_uv sync --frozen --active --quiet --no-cache
 )
 
 set -a
