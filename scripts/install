@@ -59,19 +59,36 @@ ynh_config_add --template="frontend.env" --destination="$install_dir/$app/web-fr
 #=================================================
 ynh_script_progression "Building $app's backend..."
 
-pushd "$install_dir/$app"
+pushd "$install_dir/$app/backend"
+# Install uv
+mise use uv@latest --quiet
+run_uv () {
+  UV_PYTHON_INSTALL_DIR="$install_dir/$app/.python_runtime" \
+  UV_CACHE_DIR="$install_dir/$app/.uv_cache" \
+  PATH="$install_dir/$app/.uv:$PATH" \
+  uv "$@"
+}
 
-  python3 -m venv venv
-  source venv/bin/activate
-    set -a  
-    source .env
-    set +a
-  ynh_script_progression "Installing Base dependencies..."
-  ynh_hide_warnings pip install -e ./backend
-  ynh_hide_warnings pip install -r backend/requirements/base.txt
-  ynh_script_progression "Migrating $app's database... "
-  baserow migrate >/dev/null
-  deactivate
+ynh_script_progression "Installing Python 3.14 runtime..."
+run_uv python install 3.14
+run_uv venv "$install_dir/$app/venv" --python 3.14 --managed-python --quiet
+## good python version ?
+"$install_dir/$app/venv/bin/python" --version 
+
+ynh_script_progression "Installing dependencies..."
+
+(
+  source "$install_dir/$app/venv/bin/activate"
+  run_uv sync --frozen --active --quiet --no-cache --extra cpu
+)
+
+set -a
+source .env
+set +a
+
+ynh_script_progression "Migrating $app database..."
+"$install_dir/$app/venv/bin/baserow" migrate >/dev/null
+
 popd
 
 
