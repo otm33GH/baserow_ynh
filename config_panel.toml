@@ -3,7 +3,7 @@ version = "1.0"
 [main]
 name.en = "Configuration panel"
 name.fr = "Panneau de configuration"
-services = ["__APP__-backend"]
+services = ["__APP__-backend", "__APP__-celery", "__APP__-celery-export"]
 
 [main.smtp]
 name.en = "SMTP configuration"
