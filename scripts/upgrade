@@ -159,8 +159,8 @@ pushd "$install_dir/$app/web-frontend"
   ynh_hide_warnings corepack enable
   ynh_hide_warnings corepack prepare  yarn@latest --activate
   ynh_hide_warnings ynh_exec_as_app yarn install
-export NODE_OPTIONS="--max-old-space-size=4096"
-  ynh_hide_warnings ynh_exec_as_app CI=true ./node_modules/.bin/nuxt build --config-file config/nuxt.config.prod.js --quiet
+  ynh_hide_warnings ynh_exec_as_app env NODE_OPTIONS="--max-old-space-size=4096" \
+  CI=true ./node_modules/.bin/nuxt build --config-file config/nuxt.config.prod.js --quiet
 popd
 
 #=================================================
