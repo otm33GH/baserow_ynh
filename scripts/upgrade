@@ -112,9 +112,8 @@ from_email=$(ynh_app_setting_get --app=$app --key=from_email)
 ynh_script_progression "Building $app's backend..."
 
 tempo_dir="$install_dir/tempo"
-export OLD_HOME="$HOME"
-OLD_PATH="$PATH"
 
+OLD_PATH="$PATH"
 export HOME="$tempo_dir"
 pushd "$install_dir/$app/backend"
 # Install uv
@@ -152,7 +151,7 @@ popd
 # BUILDING FRONTEND
 #=================================================
 ynh_script_progression "Building $app's frontend..."
-export HOME="$OLD_HOME"
+export HOME="$install_dir"
 export PATH="$OLD_PATH"
 chown -R $app:$app "$install_dir"
 
