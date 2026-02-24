@@ -111,16 +111,17 @@ from_email=$(ynh_app_setting_get --app=$app --key=from_email)
 #=================================================
 ynh_script_progression "Building $app's backend..."
 
-tempo_dir="$install_dir/tempo"
-export HOME="$tempo_dir"
+#tempo_dir="$install_dir/tempo"
+
 pushd "$install_dir/$app/backend"
 # Install uv
 mise use uv@latest --quiet
-PATH="$HOME/.local/share/mise/shims:$PATH"
+#PATH="$HOME/.local/share/mise/shims:$PATH"
 run_uv () {
   UV_PYTHON_INSTALL_DIR="$install_dir/$app/.python_runtime" \
   UV_CACHE_DIR="$install_dir/$app/.uv_cache" \
-#  PATH="$PATH" \
+  export HOME="$tempo_dir"
+  PATH="$HOME/.local/share/mise/shims:$PATH"
   uv "$@"
 }
 
