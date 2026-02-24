@@ -151,7 +151,7 @@ popd
 # BUILDING FRONTEND
 #=================================================
 ynh_script_progression "Building $app's frontend..."
-export HOME="$install_dir$app/web-frontend/"
+export HOME="$install_dir/$app/web-frontend/"
 export PATH="$OLD_PATH"
 chown -R $app:$app "$install_dir"
 
