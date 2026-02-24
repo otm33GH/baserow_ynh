@@ -112,7 +112,6 @@ from_email=$(ynh_app_setting_get --app=$app --key=from_email)
 ynh_script_progression "Building $app's backend..."
 
 tempo_dir="$install_dir/tempo"
-
 OLD_PATH="$PATH"
 export HOME="$tempo_dir"
 pushd "$install_dir/$app/backend"
@@ -146,7 +145,8 @@ ynh_script_progression "Migrating $app database..."
 "$install_dir/$app/venv/bin/baserow" migrate >/dev/null
 
 popd
-		ynh_safe_rm "$tempo_dir"
+ynh_safe_rm "$tempo_dir"
+
 #=================================================
 # BUILDING FRONTEND
 #=================================================
@@ -159,9 +159,6 @@ pushd "$install_dir/$app/web-frontend"
   ynh_hide_warnings corepack enable
   ynh_hide_warnings corepack prepare  yarn@latest --activate
   ynh_hide_warnings ynh_exec_as_app yarn install
-
-#  ynh_hide_warnings ynh_exec_as_app env NODE_OPTIONS="--max-old-space-size=8192" \
-#  CI=true ./node_modules/.bin/nuxt build --config-file config/nuxt.config.prod.js --quiet
   ynh_hide_warnings ynh_exec_as_app env CI=true yarn build
 popd
 
