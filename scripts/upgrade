@@ -77,18 +77,15 @@ chown -R $app:$app "$install_dir"
 #fi
 
 mv "$install_dir/$app/.env" "/tmp/${app}.backup_env"
-mv "$install_dir/$app/web-frontend/.env" "/tmp/${app}.web-frontend.backup_env"
+#mv "$install_dir/$app/web-frontend/.env" "/tmp/${app}.web-frontend.backup_env"
 
 
 ynh_setup_source --dest_dir="$install_dir/$app" --full_replace=1 --keep=.env web-frontend/.env
 
 
-#if [ -d "/tmp/${app}_backup_venv" ]; then
-#    mv "/tmp/${app}_backup_venv" "$install_dir/$app/venv"
-#fi
-
 mv "/tmp/${app}.backup_env" "$install_dir/$app/.env" 
-mv "/tmp/${app}.web-frontend.backup_env" "$install_dir/$app/web-frontend/.env"
+#mv "/tmp/${app}.web-frontend.backup_env" "$install_dir/$app/web-frontend/.env"
+ynh_config_add --template="frontend.env" --destination="$install_dir/$app/web-frontend/.env"
 
 #=================================================
 # CONFIG FILES
