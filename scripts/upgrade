@@ -159,7 +159,7 @@ pushd "$install_dir/$app/web-frontend"
   ynh_hide_warnings corepack enable
   ynh_hide_warnings corepack prepare  yarn@latest --activate
   ynh_hide_warnings ynh_exec_as_app yarn install
-  ynh_hide_warnings ynh_exec_as_app CI=true ./node_modules/nuxt/bin/nuxt.js build --config-file config/nuxt.config.local.js --quiet
+  ynh_hide_warnings ynh_exec_as_app CI=true ./node_modules/nuxt/bin/nuxt.js build --config-file config/nuxt.config.prod.js --quiet
 popd
 
 #=================================================
