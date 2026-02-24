@@ -59,13 +59,16 @@ ynh_config_add --template="frontend.env" --destination="$install_dir/$app/web-fr
 #=================================================
 ynh_script_progression "Building $app's backend..."
 
+tempo_dir="$install_dir/tempo"
+OLD_PATH="$PATH"
+export HOME="$tempo_dir"
 pushd "$install_dir/$app/backend"
 # Install uv
 mise use uv@latest --quiet
+PATH="$HOME/.local/share/mise/shims:$PATH"
 run_uv () {
   UV_PYTHON_INSTALL_DIR="$install_dir/$app/.python_runtime" \
   UV_CACHE_DIR="$install_dir/$app/.uv_cache" \
-  PATH="$install_dir/$app/.uv:$PATH" \
   uv "$@"
 }
 
@@ -79,34 +82,32 @@ ynh_script_progression "Installing dependencies..."
 
 (
   source "$install_dir/$app/venv/bin/activate"
-  run_uv sync --frozen --active --quiet --no-cache --extra cpu
+  run_uv sync --frozen --active --quiet --no-cache
 )
-
-set -a
-source .env
-set +a
-
+popd
+pushd "$install_dir/$app"
+    set -a  
+    source .env
+    set +a
 ynh_script_progression "Migrating $app database..."
 "$install_dir/$app/venv/bin/baserow" migrate >/dev/null
 
 popd
-
+ynh_safe_rm "$tempo_dir"
 
 #=================================================
 # BUILDING FRONTEND
 #=================================================
 ynh_script_progression "Building $app's frontend..."
-  chown -R $app:$app "$install_dir"
-  pushd "$install_dir/$app/web-frontend"
+export HOME="$install_dir/$app/web-frontend/"
+export PATH="$OLD_PATH"
+chown -R $app:$app "$install_dir"
 
+pushd "$install_dir/$app/web-frontend"
   ynh_hide_warnings corepack enable
   ynh_hide_warnings corepack prepare  yarn@latest --activate
-  ynh_hide_warnings ynh_exec_as_app yarn install --frozen-lockfile --non-interactive
-
-ynh_script_progression "Build..."
-
-  ynh_hide_warnings ynh_exec_as_app CI=true ./node_modules/nuxt/bin/nuxt.js build --config-file config/nuxt.config.local.js --quiet
-
+  ynh_hide_warnings ynh_exec_as_app yarn install
+  ynh_hide_warnings ynh_exec_as_app env CI=true yarn build
 popd
 
 #=================================================
