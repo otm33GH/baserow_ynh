@@ -111,7 +111,7 @@ from_email=$(ynh_app_setting_get --app=$app --key=from_email)
 #=================================================
 ynh_script_progression "Building $app's backend..."
 
-#tempo_dir="$install_dir/tempo"
+tempo_dir="$install_dir/tempo"
 
 pushd "$install_dir/$app/backend"
 # Install uv
