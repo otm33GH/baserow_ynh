@@ -5,7 +5,7 @@ name = "Baserow"
 description.en = "No-code open source database & application builder"
 description.fr = "Application open source de création d’applications et de bases de données sans code"
 
-version = "2.0.6~ynh1"
+version = "2.1.1~ynh1"
 
 maintainers = ["otm33GH"]
 
@@ -38,8 +38,8 @@ ram.runtime = "2000M"
 [resources]    
     [resources.sources.main]
 
-    url = "https://github.com/baserow/baserow/archive/refs/tags/2.0.6.tar.gz" 
-    sha256 = "d661925d71380fef5f857dfb2c6506dd2fdc5893e2710174e2485b3dd8034ff5"
+    url = "https://github.com/baserow/baserow/archive/refs/tags/2.1.1.tar.gz" 
+    sha256 = "448008d2b013f6c02b7045b35e36a2bf68e98bd861939ef85e27335c437e6e5f"
     autoupdate.strategy = "latest_github_tag"
 
     [resources.system_user]
@@ -62,7 +62,14 @@ ram.runtime = "2000M"
 
     [resources.database]
     type = "postgresql"
-
+	
+	[resources.apt.extras.mise]
+	repo = "deb https://mise.jdx.dev/deb stable main"
+	key = "https://mise.jdx.dev/gpg-key.pub"
+	packages = [
+		"mise"
+	]
+	
     [resources.nodejs]
     version = "24"
     
