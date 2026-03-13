@@ -3,7 +3,7 @@ version = "1.0"
 [main]
 name.en = "Configuration panel"
 name.fr = "Panneau de configuration"
-services = ["__APP__-backend"]
+services = ["__APP__-backend", "__APP__-celery", "__APP__-celery-export"]
 
 [main.smtp]
 name.en = "SMTP configuration"
@@ -104,35 +104,43 @@ bind = "null"
 
 
 [main.storage]
-name.en = "AWS S3 bucket"
-name.fr = "AWS S3 bucket"
+name.en = "S3 storage"
+name.fr = "Stockage S3"
 
 [main.storage.access_key_id]
-ask = "AWS_ACCESS_KEY_ID"
+ask.en = "Bucket access key id"
+ask.fr = "Bucket access key id"
+help = "AWS_ACCESS_KEY_ID"
 type = "string"
 bind = "AWS_ACCESS_KEY_ID:__INSTALL_DIR__/__APP__/.env"
 
 [main.storage.secret_access_key]
-ask = "AWS_SECRET_ACCESS_KEY"
+ask.en = "Bucket secret access key"
+ask.fr = "Bucket secret access key"
+help = "AWS_SECRET_ACCESS_KEY"
 type = "password"
 bind = "AWS_SECRET_ACCESS_KEY:__INSTALL_DIR__/__APP__/.env"
 
 [main.storage.AWS_STORAGE_BUCKET_NAME]
-ask = "AWS_STORAGE_BUCKET_NAME"
+ask.en = "Bucket name"
+ask.fr = "Nom du bucket"
+help = "AWS_STORAGE_BUCKET_NAME"
 type = "string"
 bind = "AWS_STORAGE_BUCKET_NAME:__INSTALL_DIR__/__APP__/.env"
 
-[main.storage.AWS_S3_REGION_NAME]
-ask = "AWS_S3_REGION_NAME"
-type = "string"
-bind = "AWS_S3_REGION_NAME:__INSTALL_DIR__/__APP__/.env"
+# [main.storage.AWS_S3_REGION_NAME]
+# ask = "AWS_S3_REGION_NAME"
+# type = "string"
+# bind = "AWS_S3_REGION_NAME:__INSTALL_DIR__/__APP__/.env"
 
 [main.storage.AWS_S3_ENDPOINT_URL]
-ask = "AWS_S3_ENDPOINT_URL"
+ask.en = "URL endpoint"
+ask.fr = "Url du point de terminaison"
+help = "AWS_S3_ENDPOINT_URL"
 type = "url"
 bind = "AWS_S3_ENDPOINT_URL:__INSTALL_DIR__/__APP__/.env"
 
-[main.storage.AWS_S3_CUSTOM_DOMAIN]
-ask = "AWS_S3_CUSTOM_DOMAIN"
-type = "url"
-bind = "AWS_S3_CUSTOM_DOMAIN:__INSTALL_DIR__/__APP__/.env"
+# [main.storage.AWS_S3_CUSTOM_DOMAIN]
+# ask = "AWS_S3_CUSTOM_DOMAIN"
+# type = "url"
+# bind = "AWS_S3_CUSTOM_DOMAIN:__INSTALL_DIR__/__APP__/.env"
