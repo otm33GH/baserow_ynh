@@ -49,7 +49,7 @@ ram.runtime = "2000M"
    
     [resources.permissions]
     main.url = "/"
-
+	main.auth_header = false
     [resources.ports.backend]
 
     [resources.ports.frontend]
