@@ -5,7 +5,7 @@ name = "Baserow"
 description.en = "No-code open source database & application builder"
 description.fr = "Application open source de création d’applications et de bases de données sans code"
 
-version = "2.1.6~ynh1"
+version = "2.2.2~ynh1"
 
 maintainers = ["otm33GH"]
 
@@ -71,5 +71,5 @@ ram.runtime = "2000M"
 	]
 	
     [resources.nodejs]
-    version = "24"
+    version = "20"
     
