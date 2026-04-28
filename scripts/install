@@ -105,7 +105,7 @@ chown -R $app:$app "$install_dir"
 
 pushd "$install_dir/$app/web-frontend"
   ynh_hide_warnings corepack enable
-  ynh_hide_warnings corepack prepare  yarn@latest --activate
+  ynh_hide_warnings corepack prepare yarn@3.6.4 --activate
   ynh_hide_warnings ynh_exec_as_app yarn install
   ynh_hide_warnings ynh_exec_as_app env CI=true yarn build
 popd
