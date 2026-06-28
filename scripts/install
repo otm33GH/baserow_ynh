@@ -104,12 +104,9 @@ export PATH="$OLD_PATH"
 chown -R $app:$app "$install_dir"
 
 pushd "$install_dir/$app/web-frontend"
-  perl -0777 -pi -e "s/(nitro: \{)/\$1\n    noExternals: true,/" \
-    "$install_dir/$app/web-frontend/config/nuxt.config.prod.ts"
-  ynh_hide_warnings corepack enable
-  corepack prepare yarn@4.9.2 --activate
- # ynh_hide_warnings corepack prepare yarn@latest --activate
-  corepack prepare yarn@4.9.2 --activate
+  ynh_hide_warnings ynh_exec_as_app corepack enable
+  ynh_hide_warnings ynh_exec_as_app corepack prepare yarn@latest --activate
+  ynh_hide_warnings ynh_exec_as_app yarn --version
   ynh_hide_warnings ynh_exec_as_app yarn install --refresh-lockfile
   ynh_hide_warnings ynh_exec_as_app env CI=true yarn build
 popd
