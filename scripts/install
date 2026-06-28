@@ -107,7 +107,7 @@ pushd "$install_dir/$app/web-frontend"
   ynh_hide_warnings corepack enable
  # ynh_hide_warnings corepack prepare yarn@latest --activate
   corepack prepare yarn@4.9.2 --activate
-  ynh_hide_warnings ynh_exec_as_app yarn install
+  ynh_hide_warnings ynh_exec_as_app yarn install --refresh-lockfile
   ynh_hide_warnings ynh_exec_as_app env CI=true yarn build
 popd
 
