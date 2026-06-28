@@ -104,8 +104,8 @@ export PATH="$OLD_PATH"
 chown -R $app:$app "$install_dir"
 
 pushd "$install_dir/$app/web-frontend"
-  ynh_hide_warnings ynh_exec_as_app corepack enable
-  ynh_hide_warnings ynh_exec_as_app corepack prepare yarn@latest --activate
+  ynh_hide_warnings corepack enable
+  ynh_hide_warnings corepack prepare yarn@latest --activate
   ynh_hide_warnings ynh_exec_as_app yarn --version
   ynh_hide_warnings ynh_exec_as_app yarn install --refresh-lockfile
   ynh_hide_warnings ynh_exec_as_app env CI=true yarn build
