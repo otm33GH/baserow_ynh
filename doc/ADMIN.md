@@ -3,7 +3,7 @@
 
 ### Admin user
 
-Go to [https://__DOMAIN__](https://__DOMAIN__) to create the first user.
+Go to [https://__DOMAIN__](https://__DOMAIN__) to create the first user.  
 ❗The **first** user created will have administrator rights; the following ones will be regular users.
 
 ### Configuration
