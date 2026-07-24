@@ -5,7 +5,7 @@ name = "Baserow"
 description.en = "No-code open source database & application builder"
 description.fr = "Application open source de création d’applications et de bases de données sans code"
 
-version = "2.2.2~ynh1"
+version = "2.3.2~ynh1"
 
 maintainers = ["otm33GH"]
 
@@ -38,8 +38,8 @@ ram.runtime = "2000M"
 [resources]    
     [resources.sources.main]
 
-    url = "https://github.com/baserow/baserow/archive/refs/tags/2.2.2.tar.gz" 
-    sha256 = "b5dea158ad2ad22476490cd595eebb06545c1e9756dc5834ea8716a8bdcd0358"
+    url = "https://github.com/baserow/baserow/archive/refs/tags/2.3.2.tar.gz" 
+    sha256 = "8ad9deff016be6e3eebeed47b22861d36122a2ffaba943985846805bb3d84869"
     autoupdate.strategy = "latest_github_tag"
 
     [resources.system_user]
