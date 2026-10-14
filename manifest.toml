@@ -38,8 +38,8 @@ ram.runtime = "2000M"
 [resources]    
     [resources.sources.main]
 
-    url = "https://github.com/baserow/baserow/archive/refs/tags/2.4.0.tar.gz" 
-    sha256 = "4086632abf397ba7618032535662afaa0d7e748c555ed85cc0d4fdb64cd1e6d1"
+    url = "https://github.com/baserow/baserow/archive/refs/tags/2.4.1.tar.gz" 
+    sha256 = "ac124e1af52484dc998ab0ab9ca59504d7826ce80efb2c83b728df74ab6c6182"
     autoupdate.strategy = "latest_github_tag"
 
     [resources.system_user]
